@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icon.jpg" />
     <None Remove="test-image-thumbnail.jpg" />
   </ItemGroup>
 
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="icon.jpg" />
     <Resource Include="test-image-thumbnail.jpg" />
   </ItemGroup>
 

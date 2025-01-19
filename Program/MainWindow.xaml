@@ -5,19 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Program"
         mc:Ignorable="d"
-        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Background="{x:Null}">
+        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Background="{x:Null}" Icon="/icon.jpg">
     <Grid x:Name="grdMain" Background="#FF191919" HorizontalAlignment="Center" VerticalAlignment="Center" Height="800" Width="1400" OpacityMask="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="107*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnClick" Click="Button_Click" Margin="200,625,200,114" Content="Download Video" Background="#FF464646" BorderBrush="#FF5D81EF" Grid.Column="2" Foreground="White" FontWeight="Bold" FontSize="24"/>
+        <Button x:Name="btnDownload" Click="btnDownload_Click" Margin="200,625,200,114" Content="Download Video" Background="#FF464646" BorderBrush="#FF5D81EF" Grid.Column="2" Foreground="White" FontWeight="Bold" FontSize="24"/>
         <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Margin="690,625,114,114" Background="#FF464646" Foreground="White" Click="btnDirectory_Click"/>
         <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,85,75,690" Background="#FF464646" FontSize="16" Text="test" Foreground="#FF3881F7" TextAlignment="Center"/>
         <Border x:Name="bdrView" BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="738" Width="498" Grid.Column="1" CornerRadius="10,10,10,10">
             <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Source="/test-image-thumbnail.jpg" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,463"/>
         </Border>
-        <Frame Grid.Column="2" Content="Frame"/>
     </Grid>
 </Window>
