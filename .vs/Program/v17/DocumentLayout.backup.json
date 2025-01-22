@@ -22,6 +22,10 @@
           "Children": [
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
@@ -32,32 +36,11 @@
               "RelativeDocumentMoniker": "Program\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml.cs",
               "RelativeToolTip": "Program\\MainWindow.xaml.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowDsAAAA7AAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAwJwAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-18T17:50:33.345Z",
+              "WhenOpened": "2025-01-22T14:27:00.906Z",
               "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "d7b12b35-ad01-4af1-b656-e79e7adf65b1",
-        "Display": 1,
-        "X": -5,
-        "Y": 80,
-        "Width": 1606,
-        "Height": 813,
-        "WindowState": 2
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
+            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -67,7 +50,7 @@
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml",
               "RelativeToolTip": "Program\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-19T21:36:53.989Z",
+              "WhenOpened": "2025-01-22T14:27:03.705Z",
               "EditorCaption": ""
             }
           ]

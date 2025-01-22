@@ -18,5 +18,6 @@
         <Border x:Name="bdrView" BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="738" Width="498" Grid.Column="1" CornerRadius="10,10,10,10">
             <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Source="/test-image-thumbnail.jpg" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,463"/>
         </Border>
+        <Button x:Name="btnTestAdmin" Grid.Column="2" Content="Test Admin" HorizontalAlignment="Left" Margin="232,0,0,0" VerticalAlignment="Center" Height="92" Width="184" Click="btnTestAdmin_Click"/>
     </Grid>
 </Window>

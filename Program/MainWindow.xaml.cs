@@ -4,6 +4,10 @@ using YoutubeExplode;
 using Microsoft.Win32;
 using YoutubeExplode.Videos.Streams;
 using System.IO;
+using System.Diagnostics;
+using System.Security.Principal;
+using System.IO.Enumeration;
+using AngleSharp.Dom.Events;
 
 namespace Program
 {
@@ -18,6 +22,13 @@ namespace Program
         public MainWindow()
         {
             InitializeComponent();
+
+            // if already in elevated privileges
+            if (Environment.GetCommandLineArgs().Contains("elevated"))
+            {
+                InstallFFMpeg();
+            }
+
         }
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
@@ -74,6 +85,12 @@ namespace Program
             SetDir();
         }
 
+        private void btnTestAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            RunAdministrator();
+            InstallFFMpeg();
+        }
+
         public object GetURL()
         {
             // Test URL
@@ -103,5 +120,47 @@ namespace Program
             }
             return Convert.ToString(DIR);
         }
+
+        private void RunAdministrator()
+        {
+            // is application in administrator mode already?
+            var principle = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            bool IsAdminAlready = principle.IsInRole(WindowsBuiltInRole.Administrator);
+
+            // if not, elevate privileges
+            if (!IsAdminAlready)
+            {
+                try
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo()
+                    {
+                        FileName = System.Reflection.Assembly.GetExecutingAssembly().Location,
+                        Verb = "runas",
+                        Arguments = "elevated"
+                    };
+
+                    Process.Start(startInfo);
+
+                    Application.Current.Shutdown();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error : {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
+            else
+            {
+                // if elevated privileges, then run ; otherwise we need to restart the application
+                InstallFFMpeg();
+            }
+        }
+
+        private void InstallFFMpeg()
+        {
+            //pass
+        }
+
     }
 }
