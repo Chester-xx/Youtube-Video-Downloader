@@ -35,8 +35,6 @@ C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\Program
 C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\Program.runtimeconfig.json
 C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\Program.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\Program.pdb
-C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\AngleSharp.dll
-C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\YoutubeExplode.dll
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\MainWindow.baml
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program.g.resources
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program.GeneratedMSBuildEditorConfig.editorconfig
@@ -47,3 +45,7 @@ C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program.csproj.Up2Date
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program.genruntimeconfig.cache
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\ref\Program.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Debug\net9.0-windows\YoutubeDLSharp.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\InitWindow.g.cs
+C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\InitWindow.baml

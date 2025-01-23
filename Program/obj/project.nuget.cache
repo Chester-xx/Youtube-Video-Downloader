@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "aALsefprv+A=",
+  "dgSpecHash": "b1tQq/pxKfI=",
   "success": true,
   "projectFilePath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\max12\\.nuget\\packages\\anglesharp\\1.2.0\\anglesharp.1.2.0.nupkg.sha512",
-    "C:\\Users\\max12\\.nuget\\packages\\youtubeexplode\\6.5.1\\youtubeexplode.6.5.1.nupkg.sha512"
+    "C:\\Users\\max12\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\max12\\.nuget\\packages\\youtubedlsharp\\1.1.1\\youtubedlsharp.1.1.1.nupkg.sha512"
   ],
   "logs": []
 }

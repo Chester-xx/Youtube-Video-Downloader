@@ -1,13 +1,12 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using YoutubeExplode;
 using Microsoft.Win32;
-using YoutubeExplode.Videos.Streams;
 using System.IO;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.IO.Enumeration;
-using AngleSharp.Dom.Events;
+using YoutubeDLSharp;
+using Newtonsoft.Json;
 
 namespace Program
 {
@@ -17,18 +16,12 @@ namespace Program
     public partial class MainWindow : Window
     {
         // Globals
-        string? DIR;
+        string? DIR = null;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            // if already in elevated privileges
-            if (Environment.GetCommandLineArgs().Contains("elevated"))
-            {
-                InstallFFMpeg();
-            }
-
+            InitializeApplication();
         }
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
@@ -49,46 +42,46 @@ namespace Program
                 return;
             }
             // If so, proceed
-            var DIR = Convert.ToString(GetDir());
+            var DIR = @"{GetDir()}";
 
             // create new instance of dependancy
-            YoutubeClient yt = new YoutubeClient();
+            //YoutubeClient yt = new YoutubeClient();
 
-            try
-            {
-                // get video information and high quality stream information
-                var video = await yt.Videos.GetAsync(URL);
-                var videoInfo = await yt.Videos.Streams.GetManifestAsync(video.Id);
-                var stream = videoInfo.GetVideoStreams().TryGetWithHighestVideoQuality();
+            //try
+            //{
+            //    // get video information and high quality stream information
+            //    var video = await yt.Videos.GetAsync(URL);
+            //    var videoInfo = await yt.Videos.Streams.GetManifestAsync(video.Id);
+            //    var stream = videoInfo.GetVideoStreams().TryGetWithHighestVideoQuality();
 
-                if (stream == null)
-                {
-                    MessageBox.Show("Video Stream not available or not found.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+            //    if (stream == null)
+            //    {
+            //        MessageBox.Show("Video Stream not available or not found.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //        return;
+            //    }
+                
+            //    // establish path
+            //    DIR = Path.Combine(DIR, $"{video.Title}.mp4");
 
-                // establish path
-                DIR = Path.Combine(DIR, $"{video.Title}.mp4");
-
-                //thread task - download video
-                await yt.Videos.Streams.DownloadAsync(stream, DIR);
-                MessageBox.Show("Download Complete", "Finished", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occured while downloading the video. {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            //    //thread task - download video
+            //    await yt.Videos.Streams.DownloadAsync(stream, DIR);
+            //    MessageBox.Show("Download Complete", "Finished", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"An error occured while downloading the video. {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    return;
+            //}
         }
         private void btnDirectory_Click(object sender, RoutedEventArgs e)
         {
             SetDir();
         }
 
-        private void btnTestAdmin_Click(object sender, RoutedEventArgs e)
+        private async void btnTestAdmin_Click(object sender, RoutedEventArgs e)
         {
-            RunAdministrator();
-            InstallFFMpeg();
+            //RunAdministrator();
+            
         }
 
         public object GetURL()
@@ -118,49 +111,94 @@ namespace Program
             {
                 return true;
             }
-            return Convert.ToString(DIR);
+            return @"{DIR}";
         }
 
-        private void RunAdministrator()
+        private async void InitializeApplication()
         {
-            // is application in administrator mode already?
-            var principle = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            bool IsAdminAlready = principle.IsInRole(WindowsBuiltInRole.Administrator);
+            bool? DependancyState = null;
+            bool? PreferenceState = null;
 
-            // if not, elevate privileges
-            if (!IsAdminAlready)
+            // check if main dir of program exists
+            if (!Directory.Exists(@"C:\VideoDownloader"))
             {
-                try
+                Directory.CreateDirectory(@"C:\VideoDownloader");
+                Directory.CreateDirectory(@"C:\VideoDownloader\Dependancies");
+                Directory.CreateDirectory(@"C:\VideoDownloader\UserPreferences");
+                DependancyState = false;
+            }
+            // check if sub dir exists
+            if (!Directory.Exists(@"C:\VideoDownloader\Dependancies"))
+            {
+                Directory.CreateDirectory(@"C:\VideoDownloader\Dependancies");
+                DependancyState = false;
+            }
+            // check if sub dir exists
+            if (!Directory.Exists(@"C:\VideoDownloader\UserPreferences"))
+            {
+                Directory.CreateDirectory(@"C:\VideoDownloader\UserPreferences");
+                PreferenceState = false;
+            }
+            // check if pref.json exists
+            if (!File.Exists(@"C:\VideoDownloader\UserPreferences\preferences.json"))
+            {
+                PreferenceState = false;
+            }
+
+            // if preference folder did not exist : create json file
+            if (PreferenceState == false)
+            {
+                string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
+                var pref = new
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo()
-                    {
-                        FileName = System.Reflection.Assembly.GetExecutingAssembly().Location,
-                        Verb = "runas",
-                        Arguments = "elevated"
-                    };
+                    Directory = "",
+                    DependancyState = false
+                };
+                string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
+                File.WriteAllText(path, json);
+                DIR = null;
+            }
 
-                    Process.Start(startInfo);
-
-                    Application.Current.Shutdown();
-
-                }
-                catch (Exception ex)
+            // if preference.json exists : check dependancy state
+            if (DependancyState == null)
+            {
+                DependancyState = GetDependancyState();
+                // if still null, C# logic ?? lines in code bracket still run
+                if (DependancyState == null)
                 {
-                    MessageBox.Show($"Error : {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Preference Error...", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
+            // if dependancies are not installed : install
+            if (DependancyState == false)
+            {
+                // window prompt
+                InitWindow initWindow = new InitWindow();
+                initWindow.Show();
+                this.Hide();
+            }
+        }
+        
+        private bool? GetDependancyState()
+        {
+            string path = Path.Combine(@"C:\VideoDownloader\UserPreferences", "preferences.json");
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                var pref = JsonConvert.DeserializeObject<Config>(json);
+                return pref.DependancyState;
+            }
             else
             {
-                // if elevated privileges, then run ; otherwise we need to restart the application
-                InstallFFMpeg();
+                return null;
             }
         }
 
-        private void InstallFFMpeg()
+        public class Config
         {
-            //pass
+            public string? Directory { get; set; }
+            public bool DependancyState { get; set; }
         }
-
     }
 }
