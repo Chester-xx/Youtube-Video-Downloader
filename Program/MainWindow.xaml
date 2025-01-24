@@ -13,19 +13,22 @@
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
         <Button x:Name="btnDownload" Click="btnDownload_Click" Margin="75,689,141,49" Content="Download Video" Background="#FF464646" BorderBrush="#FF197DCC" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24"/>
-        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Margin="729,689,75,49" Background="#FF464646" Foreground="#FF197DCC" Click="btnDirectory_Click" BorderBrush="#FF197DCC"/>
+        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Margin="729,689,75,49" Background="#FF464646" Foreground="#FF197DCC" Click="btnDirectory_Click" BorderBrush="#FF197DCC" FontSize="16"/>
         <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,85,75,690" Background="#FF464646" FontSize="16" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged"/>
-        <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="745" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,22,0,0">
-            <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Source="/test-image-thumbnail.jpg" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,463"/>
+        <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="740" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,27,0,0">
+            <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470"/>
         </Border>
-        <Label x:Name="lblDownloadInfo" Content="Download Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="159,516,159,253" Foreground="White" FontSize="16" FontWeight="Bold"/>
-        <Label x:Name="lblOutput" Grid.Column="1" Content="" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="445" Height="141"/>
+        <Label x:Name="lblDownloadInfo" Content="Download Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="159,501,159,268" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="lblOutput" Grid.Column="1" Content="" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="397" Height="141"/>
         <ProgressBar x:Name="prgbarDownload" Grid.ColumnSpan="3" Height="10" Margin="0,772,0,18" Background="#FF464646" BorderBrush="#FF070404" Foreground="#FF0078D7"/>
-        <Label x:Name="lblSpeed" Content="0.00 MiB/s       00:00" Grid.ColumnSpan="2" Margin="45,581,45,195" Background="{x:Null}" Foreground="White"/>
-        <Label x:Name="lblDirectory" Content="" Grid.ColumnSpan="2" Margin="45,547,46,224" Foreground="White"/>
-        <Label x:Name="lblTitle" Content="Label" Grid.ColumnSpan="2" Margin="68,321,69,400" HorizontalContentAlignment="Center" Background="#FFBFBFBF" Foreground="White" FontSize="22" FontWeight="Bold" />
-        <Label x:Name="lblViewCount" Content="Views : " Grid.ColumnSpan="2" Margin="69,405,69,365" Background="{x:Null}" Foreground="White"/>
-        <Label x:Name="lblAuthor" Content="Author : " Margin="68,435,69,334" Grid.Column="1" Foreground="White" Height="31"/>
-        <Label x:Name="lblFileSize" Content="File Size : " Grid.Column="1" Margin="69,466,69,304" Foreground="White"/>
+        <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,581,69,195" Background="{x:Null}" Foreground="White"/>
+        <Label x:Name="lblDirectory" Content="" Grid.ColumnSpan="2" Margin="68,547,69,224" Foreground="White"/>
+        <Label x:Name="lblTitle" Content="" Grid.ColumnSpan="2" Margin="68,301,69,460" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
+        <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,345,69,425" Background="{x:Null}" Foreground="White"/>
+        <Label x:Name="lblAuthor" Margin="68,375,69,394" Grid.Column="1" Foreground="White" Height="31"/>
+        <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,406,69,364" Foreground="White"/>
+        <Label x:Name="lblFormat" Grid.Column="1" Margin="69,436,69,334" Height="30" Foreground="White"/>
+        <Label x:Name="lblURL" Margin="69,466,69,304" Grid.Column="1" Foreground="White"/>
+        <Label x:Name="lblVideoInfo" Content="Video Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="158,42,159,727" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
     </Grid>
 </Window>

@@ -9,6 +9,8 @@ using YoutubeDLSharp;
 using Newtonsoft.Json;
 using System.Net;
 using System.Numerics;
+using YoutubeDLSharp.Metadata;
+using System.Windows.Media.Imaging;
 
 namespace Program
 {
@@ -16,13 +18,14 @@ namespace Program
     {
         // Globals
         string? DIR = null;
-
+        // config for json file
         public class Config
         {
             public string? Directory { get; set; }
             public bool DependencyState { get; set; }
         }
 
+        // Main window Init
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +34,7 @@ namespace Program
 
     // BUTTONS & APP LOGIC
 
+        // User clicks on download button
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
             // Did the user enter a URL?
@@ -46,53 +50,89 @@ namespace Program
                 return;
             }
 
-            var yt = new YoutubeDL();
-            yt.YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe";
-            yt.FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe";
-            yt.OutputFolder = $@"{GetDir()}";
+            // create instance of ytdl
+            YoutubeDL yt = new()
+            {
+                YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe",
+                FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe",
+                OutputFolder = $@"{GetDir()}"
+            };
 
+            // create progress and output instances
             var DownloadProgress = new Progress<DownloadProgress>((progress) => ShowProgress(progress));
             var Output = new Progress<string>((str) => lblOutput.Content = FormatStringOutput(str));
 
+            // run download and get succession
             var ErrorState = await yt.RunVideoDownload(url : $@"{GetURL()}", progress : DownloadProgress, output : Output, recodeFormat : YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
 
+            // if successful download
             if (ErrorState.Success)
-            {
-                txtURL.Text = string.Empty;
-                
+            {  
                 return;
             }
-            else
+            else // otherwise show error
             {
                 MessageBox.Show($"{ErrorState.ErrorOutput}", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
         }
 
+        // User clicks on folder button
         private void btnDirectory_Click(object sender, RoutedEventArgs e)
         {
+            // Set Directory in file storage and global var DIR
             SetDir();
         }
 
-        private void txtURL_TextChanged(object sender, TextChangedEventArgs e)
+        // When user types in the URL textbox
+        private async void txtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // main func for UX
+            // create instance of ytdl with dependency paths
+            YoutubeDL yt = new()
+            {
+                YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe",
+                FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe"
+            };
+            // get video information
+            var video = await yt.RunVideoDataFetch($@"{txtURL.Text}");
 
-            // set lblTitle.Content
+            // if video and its data exist :
+            if (video.Success)
+            {
+                // create instance of video data
+                VideoData data = video.Data;
 
-            // set, viewcount, author, filesize, format, url
+                // set thumbnail using bitmap
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(data.Thumbnail);
+                bitmap.EndInit();
+                imgThumbNail.Source = bitmap;
 
-
-
-
-
-
-
+                // set labels
+                lblTitle.Content = $@"{data.Title}";
+                lblViewCount.Content = $@"Views : {data.ViewCount}";
+                lblAuthor.Content = $@"Author : {data.Uploader}";
+                lblLikeCount.Content = $@"Likes : {data.LikeCount}";
+                lblFormat.Content = $@"Format : {data.Format}";
+                lblURL.Content = $@"Link : {txtURL.Text}";
+            }
+            else // video and its data does not exist
+            {
+                // clear all contents
+                imgThumbNail.Source = null;
+                lblTitle.Content = string.Empty;
+                lblViewCount.Content = string.Empty;
+                lblAuthor.Content = string.Empty;
+                lblLikeCount.Content = string.Empty;
+                lblFormat.Content = string.Empty;
+                lblURL.Content = string.Empty;
+            }
         }
 
     // PUBLIC AND PRIVATE FUNCTIONS
 
+        // Formats string output for every 70 characters
         private static string FormatStringOutput(string str)
         {
             if (string.IsNullOrEmpty(str))
@@ -107,22 +147,28 @@ namespace Program
             return str;
         }
 
+        // Updates download progress of videos
         private void ShowProgress(DownloadProgress progress)
         {
+            // set progress bar
+
             prgbarDownload.Value = progress.Progress * 100;
+
+            // UX, normally begins empty
             if (string.IsNullOrEmpty(progress.DownloadSpeed))
             {
                 lblSpeed.Content = "0.00 MiB/s       00:00";
             }
-            else
+            else // when its not empty output speed and ETA
             {
                 lblSpeed.Content = $"{progress.DownloadSpeed}       {progress.ETA}";
             }
         }
 
+        // gets URL from textbox
         public object GetURL()
         {
-            // Test URL
+            // flag in logic
             if (string.IsNullOrEmpty(txtURL.Text) || !txtURL.Text.Contains("youtube", StringComparison.OrdinalIgnoreCase))
             {
                 return true;
@@ -130,17 +176,22 @@ namespace Program
             return txtURL.Text;
         }
 
+        // sets directory in file storage and updates global DIR
         public void SetDir()
         {
+            // prompt file explorer
             OpenFolderDialog dialog = new OpenFolderDialog();
             bool? check = dialog.ShowDialog();
 
+            // if no folder selected
             if (check == false)
             {
                 return;
             }
-            DIR = dialog.FolderName;
 
+            DIR = dialog.FolderName;
+            
+            // update contents of preference.json file, for when app is opened next time
             string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
             var pref = new
             {
@@ -151,8 +202,11 @@ namespace Program
             File.WriteAllText(path, json);
             lblDirectory.Content = $@"{DIR}";
         }
+
+        // gets global DIR
         public object GetDir()
         {
+            // flag in logic
             if (DIR == null)
             {
                 return true;
@@ -160,8 +214,10 @@ namespace Program
             return $@"{DIR}";
         }
 
+        // ON APP LOAD
         private void InitializeApplication()
         {
+            // states of tests
             bool? DependencyState = null;
             bool? PreferenceState = null;
 
@@ -232,17 +288,20 @@ namespace Program
             // init dir label and var
             string json = File.ReadAllText(@"C:\VideoDownloader\UserPreferences\preferences.json");
             var pref = JsonConvert.DeserializeObject<Config>(json);
+
+            // if directory from json file empty
             if (string.IsNullOrEmpty(pref.Directory))
             {
                 DIR = null;
             }
-            else
+            else // otherwise set DIR
             {
                 DIR = pref.Directory;
                 lblDirectory.Content = DIR;
             }            
         }
         
+        // Gets Dependancy variable from json file
         private bool? GetDependencyState()
         {
             string path = Path.Combine(@"C:\VideoDownloader\UserPreferences", "preferences.json");
