@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 using YoutubeDLSharp;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Program
-{// NBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB!!!
-// PLEEASE SET DEPENDANCYSTATE to TRUE in JSON FILE
+{
     public partial class InitWindow : Window
     {
+        bool check = false;
+
         public InitWindow()
         {
             InitializeComponent();
@@ -29,22 +20,26 @@ namespace Program
 
         private async void Download()
         {
-            await YoutubeDLSharp.Utils.DownloadYtDlp(@"C:\VideoDownloader\Dependancies");
-            await YoutubeDLSharp.Utils.DownloadFFmpeg(@"C:\VideoDownloader\Dependancies");
+            await YoutubeDLSharp.Utils.DownloadYtDlp(@"C:\VideoDownloader\Dependencies");
+            await YoutubeDLSharp.Utils.DownloadFFmpeg(@"C:\VideoDownloader\Dependencies");
+            check = true;
+            UpdateDependencyState();
+            await Animate("");
+            this.Close();
         }
 
         private async void RunSequence()
         {
-            await Task.Delay(3000);
-            await Animate("Let's Install Some Dependencies");
-            await Task.Delay(3000);
+            await Task.Delay(2000);
+            await Animate($"Let's Install Some\n   Dependencies");
             await Animate("This May Take a While");
-            await Task.Delay(3000);
-            await Animate("...");
+            await Animate("");
+            await StringAnimate();
         }
 
         private async Task Animate(string LabelText)
         {
+            var col = new SolidColorBrush(Colors.White);
             var ColAnim = new ColorAnimation
             {
                 From = Colors.White,
@@ -52,13 +47,52 @@ namespace Program
                 Duration = TimeSpan.FromSeconds(3),
                 AutoReverse = false
             };
-            var col = new SolidColorBrush(Colors.White);
-            lblMain.Foreground = col;
-            col.BeginAnimation(SolidColorBrush.ColorProperty, ColAnim);
-            await Task.Delay(3000);
-            col.Color = Colors.White;
-            lblMain.Content = LabelText;
+
+            if (!check)
+            {
+                lblMain.Foreground = col;
+                await Task.Delay(2000);
+                col.BeginAnimation(SolidColorBrush.ColorProperty, ColAnim);
+                await Task.Delay(3050);
+                col.Color = Colors.White;
+                lblMain.Content = LabelText;
+            }
+            else
+            {
+                lblMain.Foreground = col;
+                await Task.Delay(3000);
+                col.BeginAnimation(SolidColorBrush.ColorProperty, ColAnim);
+                await Task.Delay(3500);
+            }
         }
 
+        private async Task StringAnimate()
+        {
+            var col = new SolidColorBrush(Colors.White);
+            lblMain.Foreground = col;
+            do
+            {
+                lblMain.Content = ".";
+                await Task.Delay(1000);
+                lblMain.Content = ". .";
+                await Task.Delay(1000);
+                lblMain.Content = ". . .";
+                await Task.Delay(1000);
+
+            }
+            while (!check);
+        }
+
+        private void UpdateDependencyState()
+        {
+            string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
+            var pref = new
+            {
+                Directory = "",
+                DependencyState = true
+            };
+            string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
     }
 }

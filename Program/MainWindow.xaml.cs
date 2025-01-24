@@ -7,22 +7,29 @@ using System.Security.Principal;
 using System.IO.Enumeration;
 using YoutubeDLSharp;
 using Newtonsoft.Json;
+using System.Net;
+using System.Numerics;
 
 namespace Program
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         // Globals
         string? DIR = null;
+
+        public class Config
+        {
+            public string? Directory { get; set; }
+            public bool DependencyState { get; set; }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeApplication();
         }
+
+    // BUTTONS & APP LOGIC
 
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
         {
@@ -32,56 +39,85 @@ namespace Program
                 MessageBox.Show("Please enter a valid URL.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            // If so, proceed
-            var URL = Convert.ToString(GetURL());
-
             // Did the user select a directory?
             if (GetDir() is bool noDir && noDir == true)
             {
                 MessageBox.Show("Please select a folder for your download.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            // If so, proceed
-            var DIR = @"{GetDir()}";
 
-            // create new instance of dependancy
-            //YoutubeClient yt = new YoutubeClient();
+            var yt = new YoutubeDL();
+            yt.YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe";
+            yt.FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe";
+            yt.OutputFolder = $@"{GetDir()}";
 
-            //try
-            //{
-            //    // get video information and high quality stream information
-            //    var video = await yt.Videos.GetAsync(URL);
-            //    var videoInfo = await yt.Videos.Streams.GetManifestAsync(video.Id);
-            //    var stream = videoInfo.GetVideoStreams().TryGetWithHighestVideoQuality();
+            var DownloadProgress = new Progress<DownloadProgress>((progress) => ShowProgress(progress));
+            var Output = new Progress<string>((str) => lblOutput.Content = FormatStringOutput(str));
 
-            //    if (stream == null)
-            //    {
-            //        MessageBox.Show("Video Stream not available or not found.", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //        return;
-            //    }
+            var ErrorState = await yt.RunVideoDownload(url : $@"{GetURL()}", progress : DownloadProgress, output : Output, recodeFormat : YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+
+            if (ErrorState.Success)
+            {
+                txtURL.Text = string.Empty;
                 
-            //    // establish path
-            //    DIR = Path.Combine(DIR, $"{video.Title}.mp4");
+                return;
+            }
+            else
+            {
+                MessageBox.Show($"{ErrorState.ErrorOutput}", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-            //    //thread task - download video
-            //    await yt.Videos.Streams.DownloadAsync(stream, DIR);
-            //    MessageBox.Show("Download Complete", "Finished", MessageBoxButton.OK, MessageBoxImage.Information);
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show($"An error occured while downloading the video. {ex}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    return;
-            //}
         }
+
         private void btnDirectory_Click(object sender, RoutedEventArgs e)
         {
             SetDir();
         }
 
-        private async void btnTestAdmin_Click(object sender, RoutedEventArgs e)
+        private void txtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //RunAdministrator();
-            
+            // main func for UX
+
+            // set lblTitle.Content
+
+            // set, viewcount, author, filesize, format, url
+
+
+
+
+
+
+
+        }
+
+    // PUBLIC AND PRIVATE FUNCTIONS
+
+        private static string FormatStringOutput(string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+            int max = 80;
+            for (int i = max; i < str.Length; i += max + 1)
+            {
+                str = str.Insert(i, "\n");
+            }
+            return str;
+        }
+
+        private void ShowProgress(DownloadProgress progress)
+        {
+            prgbarDownload.Value = progress.Progress * 100;
+            if (string.IsNullOrEmpty(progress.DownloadSpeed))
+            {
+                lblSpeed.Content = "0.00 MiB/s       00:00";
+            }
+            else
+            {
+                lblSpeed.Content = $"{progress.DownloadSpeed}       {progress.ETA}";
+            }
         }
 
         public object GetURL()
@@ -104,6 +140,16 @@ namespace Program
                 return;
             }
             DIR = dialog.FolderName;
+
+            string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
+            var pref = new
+            {
+                Directory = $@"{DIR}",
+                DependencyState = true
+            };
+            string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
+            File.WriteAllText(path, json);
+            lblDirectory.Content = $@"{DIR}";
         }
         public object GetDir()
         {
@@ -111,27 +157,27 @@ namespace Program
             {
                 return true;
             }
-            return @"{DIR}";
+            return $@"{DIR}";
         }
 
-        private async void InitializeApplication()
+        private void InitializeApplication()
         {
-            bool? DependancyState = null;
+            bool? DependencyState = null;
             bool? PreferenceState = null;
 
             // check if main dir of program exists
             if (!Directory.Exists(@"C:\VideoDownloader"))
             {
                 Directory.CreateDirectory(@"C:\VideoDownloader");
-                Directory.CreateDirectory(@"C:\VideoDownloader\Dependancies");
+                Directory.CreateDirectory(@"C:\VideoDownloader\Dependencies");
                 Directory.CreateDirectory(@"C:\VideoDownloader\UserPreferences");
-                DependancyState = false;
+                DependencyState = false;
             }
             // check if sub dir exists
-            if (!Directory.Exists(@"C:\VideoDownloader\Dependancies"))
+            if (!Directory.Exists(@"C:\VideoDownloader\Dependencies"))
             {
-                Directory.CreateDirectory(@"C:\VideoDownloader\Dependancies");
-                DependancyState = false;
+                Directory.CreateDirectory(@"C:\VideoDownloader\Dependencies");
+                DependencyState = false;
             }
             // check if sub dir exists
             if (!Directory.Exists(@"C:\VideoDownloader\UserPreferences"))
@@ -149,56 +195,67 @@ namespace Program
             if (PreferenceState == false)
             {
                 string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
-                var pref = new
+                var pref2 = new
                 {
                     Directory = "",
-                    DependancyState = false
+                    DependencyState = false
                 };
-                string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
-                File.WriteAllText(path, json);
+                string json2 = JsonConvert.SerializeObject(pref2, Formatting.Indented);
+                File.WriteAllText(path, json2);
                 DIR = null;
             }
 
-            // if preference.json exists : check dependancy state
-            if (DependancyState == null)
+            // if preference.json exists : check dependency state
+            if (DependencyState == null)
             {
-                DependancyState = GetDependancyState();
+                DependencyState = GetDependencyState();
                 // if still null, C# logic ?? lines in code bracket still run
-                if (DependancyState == null)
+                if (DependencyState == null)
                 {
                     MessageBox.Show("Preference Error...", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
             }
-            // if dependancies are not installed : install
-            if (DependancyState == false)
+            // if dependencies are not installed : install
+            if (DependencyState == false)
             {
                 // window prompt
                 InitWindow initWindow = new InitWindow();
                 initWindow.Show();
                 this.Hide();
+                initWindow.Closed += (sender, args) => 
+                {
+                    this.Visibility = Visibility.Visible;
+                };
             }
+
+            // init dir label and var
+            string json = File.ReadAllText(@"C:\VideoDownloader\UserPreferences\preferences.json");
+            var pref = JsonConvert.DeserializeObject<Config>(json);
+            if (string.IsNullOrEmpty(pref.Directory))
+            {
+                DIR = null;
+            }
+            else
+            {
+                DIR = pref.Directory;
+                lblDirectory.Content = DIR;
+            }            
         }
         
-        private bool? GetDependancyState()
+        private bool? GetDependencyState()
         {
             string path = Path.Combine(@"C:\VideoDownloader\UserPreferences", "preferences.json");
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
                 var pref = JsonConvert.DeserializeObject<Config>(json);
-                return pref.DependancyState;
+                return pref.DependencyState;
             }
             else
             {
                 return null;
             }
-        }
-
-        public class Config
-        {
-            public string? Directory { get; set; }
-            public bool DependancyState { get; set; }
         }
     }
 }
