@@ -12,23 +12,162 @@
             <ColumnDefinition Width="107*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnDownload" Click="btnDownload_Click" Margin="75,689,141,49" Content="Download Video" Background="#FF464646" BorderBrush="#FF197DCC" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24"/>
-        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Margin="729,689,75,49" Background="#FF464646" Foreground="#FF197DCC" Click="btnDirectory_Click" BorderBrush="#FF197DCC" FontSize="16"/>
-        <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,85,75,690" Background="#FF464646" FontSize="16" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged"/>
-        <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="740" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,27,0,0">
+
+        <!-- Download Button -->
+        <Button x:Name="btnDownload" Content="Download Video" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24" Margin="75,627,155,99" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDownload_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" 
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    CornerRadius="10"
+                    Padding="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF545454"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF303030"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <!-- Folder Button -->
+        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Foreground="#FF197DCC" FontSize="16" Margin="715,627,75,99" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDirectory_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" 
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    CornerRadius="10"
+                    Padding="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF545454"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF303030"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <!-- Smaller Items -->
+            <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,299,75,461" Background="#FF464646" FontSize="18" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}"/>
+        <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="728" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,34,0,0">
             <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470"/>
         </Border>
         <Label x:Name="lblDownloadInfo" Content="Download Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="159,501,159,268" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
-        <Label x:Name="lblOutput" Grid.Column="1" Content="" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="397" Height="141"/>
-        <ProgressBar x:Name="prgbarDownload" Grid.ColumnSpan="3" Height="10" Margin="0,772,0,18" Background="#FF464646" BorderBrush="#FF070404" Foreground="#FF0078D7"/>
-        <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,581,69,195" Background="{x:Null}" Foreground="White"/>
-        <Label x:Name="lblDirectory" Content="" Grid.ColumnSpan="2" Margin="68,547,69,224" Foreground="White"/>
-        <Label x:Name="lblTitle" Content="" Grid.ColumnSpan="2" Margin="68,301,69,460" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
-        <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,345,69,425" Background="{x:Null}" Foreground="White"/>
-        <Label x:Name="lblAuthor" Margin="68,375,69,394" Grid.Column="1" Foreground="White" Height="31"/>
-        <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,406,69,364" Foreground="White"/>
-        <Label x:Name="lblFormat" Grid.Column="1" Margin="69,436,69,334" Height="30" Foreground="White"/>
-        <Label x:Name="lblURL" Margin="69,466,69,304" Grid.Column="1" Foreground="White"/>
+        <Label x:Name="lblOutput" Grid.Column="1" Content="Output" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="397" Height="141"/>
+        <ProgressBar x:Name="prgbarDownload" Grid.ColumnSpan="3" Height="10" Margin="0,772,0,18" Background="#FF464646" BorderBrush="#FF464646" Foreground="#FF0078D7"/>
+        <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,581,69,195" Background="{x:Null}" Foreground="White" Content="Speed"/>
+        <Label x:Name="lblDirectory" Content="Directory" Grid.ColumnSpan="2" Margin="68,547,69,224" Foreground="White"/>
+        <Label x:Name="lblTitle" Content="Title" Grid.ColumnSpan="2" Margin="68,301,69,460" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
+        <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,345,69,425" Background="{x:Null}" Foreground="White" Content="Views"/>
+        <Label x:Name="lblAuthor" Margin="68,375,69,394" Grid.Column="1" Foreground="White" Height="31" Content="Author"/>
+        <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,406,69,364" Foreground="White" Content="Likes"/>
+        <Label x:Name="lblFormat" Grid.Column="1" Margin="69,436,69,334" Height="30" Foreground="White" Content="Format"/>
+        <Label x:Name="lblURL" Margin="69,466,69,304" Grid.Column="1" Foreground="White" Content="Link"/>
         <Label x:Name="lblVideoInfo" Content="Video Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="158,42,159,727" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
+
+        <!-- Standard -->
+        <RadioButton x:Name="rgbCombined" GroupName="options" IsChecked="True" Grid.Column="2" 
+             Margin="133,411,582,349" Background="#FF464646" Width="150" BorderThickness="1">
+            <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border" CornerRadius="10,0,0,10" Padding="10" Background="{TemplateBinding Background}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Standard "/>
+                            <TextBlock Text="✨"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RadioButton.Template>
+        </RadioButton>
+
+        <!-- Video -->
+        <RadioButton x:Name="rgbVideo" GroupName="options" Margin="283,411,432,349" Grid.Column="2" 
+             Width="150" Background="#FF464646">
+            <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border" CornerRadius="0,0,0,0" Padding="10" Background="{TemplateBinding Background}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Video Only" Margin="0,0,5,0"/>
+                            <TextBlock Text="📸"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RadioButton.Template>
+        </RadioButton>
+
+        <!-- Video + Audio -->
+        <RadioButton x:Name="rgbVideoAndAudio" GroupName="options" Margin="433,411,282,349" Grid.Column="2" 
+             Width="150" Background="#FF464646">
+            <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border" CornerRadius="0,0,0,0" Padding="10" Background="{TemplateBinding Background}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Video + Audio" Margin="0,0,5,0"/>
+                            <TextBlock Text="📸🔊"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RadioButton.Template>
+        </RadioButton>
+
+        <!-- Audio -->
+        <RadioButton x:Name="rgbAudio" GroupName="options" Margin="583,411,132,349" Grid.Column="2" 
+             Width="150" Background="#FF464646">
+            <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="border" CornerRadius="0,10,10,0" Padding="10" Background="{TemplateBinding Background}">
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock Text="Audio Only" Margin="0,0,5,0"/>
+                            <TextBlock Text="🔉"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF197DCC"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RadioButton.Template>
+        </RadioButton>
+
     </Grid>
 </Window>
