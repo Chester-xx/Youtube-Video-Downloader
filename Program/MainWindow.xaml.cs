@@ -11,6 +11,7 @@ using System.Net;
 using System.Numerics;
 using YoutubeDLSharp.Metadata;
 using System.Windows.Media.Imaging;
+using System.Text.RegularExpressions;
 
 namespace Program
 {
@@ -62,19 +63,44 @@ namespace Program
             var DownloadProgress = new Progress<DownloadProgress>((progress) => ShowProgress(progress));
             var Output = new Progress<string>((str) => lblOutput.Content = FormatStringOutput(str));
 
-            // run download and get succession
-            var ErrorState = await yt.RunVideoDownload(url : $@"{GetURL()}", progress : DownloadProgress, output : Output, recodeFormat : YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+            RunResult<string> ErrorState;
+            RunResult<string> ErrorStateVideo;
+            RunResult<string> ErrorStateAudio;
 
-            // if successful download
-            if (ErrorState.Success)
-            {  
-                return;
-            }
-            else // otherwise show error
+            // Standard
+            if (rgbCombined.IsChecked == true)
             {
-                MessageBox.Show($"{ErrorState.ErrorOutput}", "Download Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+            }
+
+            // Video
+            else if (rgbVideo.IsChecked == true)
+            {
+                ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+            }
+
+            // Audio
+            else if (rgbAudio.IsChecked == true)
+            {
+                ErrorState = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+            }
+
+            // Video + Audio
+            else if (rgbVideoAndAudio.IsChecked == true)
+            {
+                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+            }
+
+            // No method selected for download
+            else
+            {
+                MessageBox.Show("Please select a download method.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
+            // NEED TO FIND WAY TO IMPLEMENT ERROR HANDLING AS CURRENT METHOD FAULTY AND NEEDED TO BE REMOVED
+            // ErrorState.Success OR ErrorStateVideo/Audio.Success
         }
 
         // User clicks on folder button
@@ -119,14 +145,20 @@ namespace Program
             }
             else // video and its data does not exist
             {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri("https://i.imgur.com/v6tlkq8.jpeg");
+                bitmap.EndInit();
+
+
                 // clear all contents
-                imgThumbNail.Source = null;
+                imgThumbNail.Source = bitmap;
                 lblTitle.Content = string.Empty;
-                lblViewCount.Content = string.Empty;
-                lblAuthor.Content = string.Empty;
-                lblLikeCount.Content = string.Empty;
-                lblFormat.Content = string.Empty;
-                lblURL.Content = string.Empty;
+                lblViewCount.Content = "Views :";
+                lblAuthor.Content = "Author :";
+                lblLikeCount.Content = "Likes :";
+                lblFormat.Content = "Format :";
+                lblURL.Content = "Link :";
             }
         }
 
@@ -298,7 +330,7 @@ namespace Program
             {
                 DIR = pref.Directory;
                 lblDirectory.Content = DIR;
-            }            
+            }
         }
         
         // Gets Dependancy variable from json file
@@ -315,6 +347,11 @@ namespace Program
             {
                 return null;
             }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
         }
     }
 }

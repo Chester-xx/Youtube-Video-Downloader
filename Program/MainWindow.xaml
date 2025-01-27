@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Program"
         mc:Ignorable="d"
-        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Background="{x:Null}" Icon="/icon.jpg" ResizeMode="NoResize" WindowStyle="ThreeDBorderWindow">
+        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Background="{x:Null}" Icon="/icon.jpg" ResizeMode="NoResize">
+
     <Grid x:Name="grdMain" Background="#FF191919" HorizontalAlignment="Center" VerticalAlignment="Center" Height="800" Width="1400" OpacityMask="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
@@ -14,7 +15,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Download Button -->
-        <Button x:Name="btnDownload" Content="Download Video" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24" Margin="75,627,155,99" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDownload_Click">
+        <Button x:Name="btnDownload" Content="Download Video" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24" Margin="75,610,155,116" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDownload_Click" ToolTip="Start your download.">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" 
@@ -26,7 +27,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FF545454"/>
+                            <Setter TargetName="border" Property="Background" Value="#FF505050"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="#FF303030"/>
@@ -37,7 +38,7 @@
         </Button>
 
         <!-- Folder Button -->
-        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Foreground="#FF197DCC" FontSize="16" Margin="715,627,75,99" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDirectory_Click">
+        <Button x:Name="btnDirectory" Content="Folder" Grid.Column="2" Foreground="#FF197DCC" FontSize="16" Margin="716,610,75,116" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDirectory_Click" ToolTip="Select Download folder destination.">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" 
@@ -49,7 +50,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FF545454"/>
+                            <Setter TargetName="border" Property="Background" Value="#FF505050"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="#FF303030"/>
@@ -60,26 +61,26 @@
         </Button>
 
         <!-- Smaller Items -->
-            <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,299,75,461" Background="#FF464646" FontSize="18" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}"/>
+        <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="74,300,75,460" Background="#FF464646" FontSize="18" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}" ToolTip="Paste Your Link Here" Width="716"/>
         <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="728" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,34,0,0">
-            <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470"/>
+            <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470" Source="/test-image-thumbnail.jpg"/>
         </Border>
         <Label x:Name="lblDownloadInfo" Content="Download Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="159,501,159,268" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
-        <Label x:Name="lblOutput" Grid.Column="1" Content="Output" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="397" Height="141"/>
+        <Label x:Name="lblOutput" Grid.Column="1" Content="Output :" HorizontalAlignment="Center" Margin="0,610,0,0" VerticalAlignment="Top" Foreground="White" Width="397" Height="141"/>
         <ProgressBar x:Name="prgbarDownload" Grid.ColumnSpan="3" Height="10" Margin="0,772,0,18" Background="#FF464646" BorderBrush="#FF464646" Foreground="#FF0078D7"/>
-        <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,581,69,195" Background="{x:Null}" Foreground="White" Content="Speed"/>
-        <Label x:Name="lblDirectory" Content="Directory" Grid.ColumnSpan="2" Margin="68,547,69,224" Foreground="White"/>
-        <Label x:Name="lblTitle" Content="Title" Grid.ColumnSpan="2" Margin="68,301,69,460" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
-        <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,345,69,425" Background="{x:Null}" Foreground="White" Content="Views"/>
-        <Label x:Name="lblAuthor" Margin="68,375,69,394" Grid.Column="1" Foreground="White" Height="31" Content="Author"/>
-        <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,406,69,364" Foreground="White" Content="Likes"/>
-        <Label x:Name="lblFormat" Grid.Column="1" Margin="69,436,69,334" Height="30" Foreground="White" Content="Format"/>
-        <Label x:Name="lblURL" Margin="69,466,69,304" Grid.Column="1" Foreground="White" Content="Link"/>
+        <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,581,69,195" Background="{x:Null}" Foreground="White" Content="Speed :"/>
+        <Label x:Name="lblDirectory" Content="Download Destination" Grid.ColumnSpan="2" Margin="68,547,69,224" Foreground="White"/>
+        <Label x:Name="lblTitle" Grid.ColumnSpan="2" Margin="68,301,69,460" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
+        <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,345,69,425" Background="{x:Null}" Foreground="White" Content="Views :"/>
+        <Label x:Name="lblAuthor" Margin="68,375,69,394" Grid.Column="1" Foreground="White" Height="31" Content="Author :"/>
+        <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,406,69,364" Foreground="White" Content="Likes :"/>
+        <Label x:Name="lblFormat" Grid.Column="1" Margin="69,436,69,334" Height="30" Foreground="White" Content="Format :"/>
+        <Label x:Name="lblURL" Margin="69,466,69,304" Grid.Column="1" Foreground="White" Content="Link :"/>
         <Label x:Name="lblVideoInfo" Content="Video Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="158,42,159,727" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
 
         <!-- Standard -->
         <RadioButton x:Name="rgbCombined" GroupName="options" IsChecked="True" Grid.Column="2" 
-             Margin="133,411,582,349" Background="#FF464646" Width="150" BorderThickness="1">
+             Margin="74,539,612,221" Background="#FF464646" Width="179" BorderThickness="1" ToolTip="Downloads and merges video and audio into a single mp4 file.">
             <RadioButton.Template>
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="border" CornerRadius="10,0,0,10" Padding="10" Background="{TemplateBinding Background}">
@@ -101,8 +102,8 @@
         </RadioButton>
 
         <!-- Video -->
-        <RadioButton x:Name="rgbVideo" GroupName="options" Margin="283,411,432,349" Grid.Column="2" 
-             Width="150" Background="#FF464646">
+        <RadioButton x:Name="rgbVideo" GroupName="options" Margin="253,539,433,221" Grid.Column="2" 
+             Width="179" Background="#FF464646" ToolTip="Downloads video only. Audio is removed.">
             <RadioButton.Template>
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="border" CornerRadius="0,0,0,0" Padding="10" Background="{TemplateBinding Background}">
@@ -124,8 +125,8 @@
         </RadioButton>
 
         <!-- Video + Audio -->
-        <RadioButton x:Name="rgbVideoAndAudio" GroupName="options" Margin="433,411,282,349" Grid.Column="2" 
-             Width="150" Background="#FF464646">
+        <RadioButton x:Name="rgbVideoAndAudio" GroupName="options" Margin="432,539,254,221" Grid.Column="2" 
+             Width="179" Background="#FF464646" ToolTip="Downloads video and audio into two seperate files, mp4 and mp3.">
             <RadioButton.Template>
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="border" CornerRadius="0,0,0,0" Padding="10" Background="{TemplateBinding Background}">
@@ -147,8 +148,8 @@
         </RadioButton>
 
         <!-- Audio -->
-        <RadioButton x:Name="rgbAudio" GroupName="options" Margin="583,411,132,349" Grid.Column="2" 
-             Width="150" Background="#FF464646">
+        <RadioButton x:Name="rgbAudio" GroupName="options" Margin="611,539,75,221" Grid.Column="2" 
+             Width="179" Background="#FF464646" ToolTip="Downloads audio only. Video is removed.">
             <RadioButton.Template>
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="border" CornerRadius="0,10,10,0" Padding="10" Background="{TemplateBinding Background}">
@@ -168,6 +169,8 @@
                 </ControlTemplate>
             </RadioButton.Template>
         </RadioButton>
+
+        <!-- Close Form -->
 
     </Grid>
 </Window>
