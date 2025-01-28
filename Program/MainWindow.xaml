@@ -61,7 +61,7 @@
         </Button>
 
         <!-- Smaller Items -->
-        <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="74,300,75,460" Background="#FF464646" FontSize="18" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}" ToolTip="Paste Your Link Here" Width="716"/>
+        <TextBox x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,300,75,460" Background="#FF464646" FontSize="18" Foreground="#FF197DCC" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}" ToolTip="Paste Your Link Here"/>
         <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="728" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,34,0,0">
             <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470" Source="/test-image-thumbnail.jpg"/>
         </Border>
@@ -169,6 +169,7 @@
                 </ControlTemplate>
             </RadioButton.Template>
         </RadioButton>
+        <Label x:Name="lblStatus" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Grid.Column="2" Margin="75,381,75,303" Foreground="White" FontSize="48" FontWeight="Bold" Content="Busy"/>
 
         <!-- Close Form -->
 

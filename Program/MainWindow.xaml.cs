@@ -59,6 +59,8 @@ namespace Program
                 OutputFolder = $@"{GetDir()}"
             };
 
+            lblStatus.Content = "Busy...";
+
             // create progress and output instances
             var DownloadProgress = new Progress<DownloadProgress>((progress) => ShowProgress(progress));
             var Output = new Progress<string>((str) => lblOutput.Content = FormatStringOutput(str));
@@ -101,6 +103,8 @@ namespace Program
 
             // NEED TO FIND WAY TO IMPLEMENT ERROR HANDLING AS CURRENT METHOD FAULTY AND NEEDED TO BE REMOVED
             // ErrorState.Success OR ErrorStateVideo/Audio.Success
+
+            lblStatus.Content = "Done";
         }
 
         // User clicks on folder button
