@@ -1,9 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using YoutubeDLSharp;
 using Newtonsoft.Json;
-using System.IO;
 
 namespace Program
 {

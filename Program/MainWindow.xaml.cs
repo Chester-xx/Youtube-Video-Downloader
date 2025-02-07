@@ -1,22 +1,22 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Controls;
-using Microsoft.Win32;
-using System.IO;
-using System.Diagnostics;
-using System.Security.Principal;
-using System.IO.Enumeration;
-using YoutubeDLSharp;
-using Newtonsoft.Json;
-using System.Net;
-using System.Numerics;
-using YoutubeDLSharp.Metadata;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Text.RegularExpressions;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using YoutubeDLSharp;
+using YoutubeDLSharp.Metadata;
 
 namespace Program
 {
     public partial class MainWindow : Window
     {
+        // debouncer
+        private readonly System.Timers.Timer debounceTimer = new(500) { AutoReset = false };
+
         // Globals
         string? DIR = null;
         // config for json file
@@ -31,9 +31,12 @@ namespace Program
         {
             InitializeComponent();
             InitializeApplication();
+
+            // debouncer
+            debounceTimer.Elapsed += async (sender, e) => await Dispatcher.InvokeAsync(FetchVideoInfo);
         }
 
-    // BUTTONS & APP LOGIC
+        // BUTTONS & APP LOGIC
 
         // User clicks on download button
         private async void btnDownload_Click(object sender, RoutedEventArgs e)
@@ -117,6 +120,19 @@ namespace Program
         // When user types in the URL textbox
         private async void txtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
+            debounceTimer.Stop();
+            debounceTimer.Start();
+            //await FetchVideoInfo();
+        }
+
+        private async Task FetchVideoInfo()
+        {
+            // lets stop any resources from being used if there is no need
+            if (string.IsNullOrWhiteSpace(txtURL.Text))
+            {
+                return;
+            }
+
             // create instance of ytdl with dependency paths
             YoutubeDL yt = new()
             {
@@ -124,49 +140,82 @@ namespace Program
                 FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe"
             };
             // get video information
-            var video = await yt.RunVideoDataFetch($@"{txtURL.Text}");
 
-            // if video and its data exist :
-            if (video.Success)
+            try
             {
-                // create instance of video data
-                VideoData data = video.Data;
+                Mouse.OverrideCursor = Cursors.Wait;
+                var video = await yt.RunVideoDataFetch($@"{txtURL.Text}");
 
-                // set thumbnail using bitmap
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(data.Thumbnail);
-                bitmap.EndInit();
-                imgThumbNail.Source = bitmap;
+                // if video and its data exist :
+                if (video.Success)
+                {
+                    // create instance of video data
+                    VideoData data = video.Data;
 
-                // set labels
-                lblTitle.Content = $@"{data.Title}";
-                lblViewCount.Content = $@"Views : {data.ViewCount}";
-                lblAuthor.Content = $@"Author : {data.Uploader}";
-                lblLikeCount.Content = $@"Likes : {data.LikeCount}";
-                lblFormat.Content = $@"Format : {data.Format}";
-                lblURL.Content = $@"Link : {txtURL.Text}";
+                    // set thumbnail using bitmap
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(data.Thumbnail);
+                    bitmap.EndInit();
+                    imgThumbNail.Source = bitmap;
+
+                    // set labels
+                    lblTitle.Content = $@"{data.Title}";
+                    lblViewCount.Content = $@"Views : {data.ViewCount}";
+                    lblAuthor.Content = $@"Author : {data.Uploader}";
+                    lblLikeCount.Content = $@"Likes : {data.LikeCount}";
+                    lblFormat.Content = $@"Format : {data.Format}";
+                    lblURL.Content = $@"Link : {txtURL.Text}";
+                }
+                else
+                {
+                    // video and its data does not exist
+                    ResetUI();
+                }
             }
-            else // video and its data does not exist
+            finally
             {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri("https://i.imgur.com/v6tlkq8.jpeg");
-                bitmap.EndInit();
-
-
-                // clear all contents
-                imgThumbNail.Source = bitmap;
-                lblTitle.Content = string.Empty;
-                lblViewCount.Content = "Views :";
-                lblAuthor.Content = "Author :";
-                lblLikeCount.Content = "Likes :";
-                lblFormat.Content = "Format :";
-                lblURL.Content = "Link :";
+                Mouse.OverrideCursor = null;
             }
         }
 
-    // PUBLIC AND PRIVATE FUNCTIONS
+        private void ResetUI()
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("https://i.imgur.com/v6tlkq8.jpeg");
+            bitmap.EndInit();
+
+
+            // clear all contents
+            imgThumbNail.Source = bitmap;
+            lblTitle.Content = string.Empty;
+            lblViewCount.Content = "Views :";
+            lblAuthor.Content = "Author :";
+            lblLikeCount.Content = "Likes :";
+            lblFormat.Content = "Format :";
+            lblURL.Content = "Link :";
+        }
+
+        private void txtURL_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtURL.Text == "⌘ Paste Link Here")
+            {
+                txtURL.Text = string.Empty;
+                txtURL.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF197DCC"));
+            }
+        }
+
+        private void txtURL_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtURL.Text))
+            {
+                txtURL.Text = "⌘ Paste Link Here";
+                txtURL.Foreground = Brushes.White;
+            }
+        }
+
+        // PUBLIC AND PRIVATE FUNCTIONS
 
         // Formats string output for every 70 characters
         private static string FormatStringOutput(string str)
@@ -226,7 +275,7 @@ namespace Program
             }
 
             DIR = dialog.FolderName;
-            
+
             // update contents of preference.json file, for when app is opened next time
             string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
             var pref = new
@@ -315,7 +364,7 @@ namespace Program
                 InitWindow initWindow = new InitWindow();
                 initWindow.Show();
                 this.Hide();
-                initWindow.Closed += (sender, args) => 
+                initWindow.Closed += (sender, args) =>
                 {
                     this.Visibility = Visibility.Visible;
                 };
@@ -336,7 +385,7 @@ namespace Program
                 lblDirectory.Content = DIR;
             }
         }
-        
+
         // Gets Dependancy variable from json file
         private bool? GetDependencyState()
         {
