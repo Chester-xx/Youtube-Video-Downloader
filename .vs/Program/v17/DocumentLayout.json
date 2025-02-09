@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Projects\\C#-Video-downloader\\Program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\program.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\program.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,43 +21,30 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Program\\MainWindow.xaml",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml",
               "RelativeToolTip": "Program\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-28T17:34:33.162Z",
+              "WhenOpened": "2025-02-09T14:03:44.24Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program",
-              "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
-              "RelativeDocumentMoniker": "Program\\Program.csproj",
-              "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
-              "RelativeToolTip": "Program\\Program.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-01-29T17:16:08.367Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "Program\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml.cs",
               "RelativeToolTip": "Program\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACMAAABnAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAADwvx4AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-28T12:16:21.333Z",
+              "IsPinned": true,
               "EditorCaption": ""
             }
           ]

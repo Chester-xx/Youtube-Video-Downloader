@@ -1,4 +1,9 @@
-﻿using System.IO;
+﻿// TODO
+// what if user has different drive letter?
+
+
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,7 +44,7 @@ namespace Program
         // BUTTONS & APP LOGIC
 
         // User clicks on download button
-        private async void btnDownload_Click(object sender, RoutedEventArgs e)
+        private async void BtnDownload_Click(object sender, RoutedEventArgs e)
         {
             // Did the user enter a URL?
             if (GetURL() is bool noURL && noURL == true)
@@ -111,18 +116,32 @@ namespace Program
         }
 
         // User clicks on folder button
-        private void btnDirectory_Click(object sender, RoutedEventArgs e)
+        private void BtnDirectory_Click(object sender, RoutedEventArgs e)
         {
             // Set Directory in file storage and global var DIR
             SetDir();
         }
 
         // When user types in the URL textbox
-        private async void txtURL_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
-            debounceTimer.Stop();
-            debounceTimer.Start();
-            //await FetchVideoInfo();
+                debounceTimer.Stop();
+                debounceTimer.Start();
+        }
+
+        // App drag method
+        private void TitleBarDrag_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        // Quit app logic
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown(0);
         }
 
         private async Task FetchVideoInfo()
@@ -197,7 +216,7 @@ namespace Program
             lblURL.Content = "Link :";
         }
 
-        private void txtURL_GotFocus(object sender, RoutedEventArgs e)
+        private void TxtURL_GotFocus(object sender, RoutedEventArgs e)
         {
             if (txtURL.Text == "⌘ Paste Link Here")
             {
@@ -206,7 +225,7 @@ namespace Program
             }
         }
 
-        private void txtURL_LostFocus(object sender, RoutedEventArgs e)
+        private void TxtURL_LostFocus(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtURL.Text))
             {
@@ -217,7 +236,7 @@ namespace Program
 
         // PUBLIC AND PRIVATE FUNCTIONS
 
-        // Formats string output for every 70 characters
+        // Formats string output for every 80 characters
         private static string FormatStringOutput(string str)
         {
             if (string.IsNullOrEmpty(str))
@@ -242,11 +261,11 @@ namespace Program
             // UX, normally begins empty
             if (string.IsNullOrEmpty(progress.DownloadSpeed))
             {
-                lblSpeed.Content = "0.00 MiB/s       00:00";
+                lblSpeed.Content = "0.00 MiB/s\t\t00:00";
             }
             else // when its not empty output speed and ETA
             {
-                lblSpeed.Content = $"{progress.DownloadSpeed}       {progress.ETA}";
+                lblSpeed.Content = $"{progress.DownloadSpeed}\t{progress.ETA}";
             }
         }
 
@@ -375,7 +394,7 @@ namespace Program
             var pref = JsonConvert.DeserializeObject<Config>(json);
 
             // if directory from json file empty
-            if (string.IsNullOrEmpty(pref.Directory))
+            if (string.IsNullOrEmpty(value: pref.Directory))
             {
                 DIR = null;
             }
@@ -387,7 +406,7 @@ namespace Program
         }
 
         // Gets Dependancy variable from json file
-        private bool? GetDependencyState()
+        private static bool? GetDependencyState()
         {
             string path = Path.Combine(@"C:\VideoDownloader\UserPreferences", "preferences.json");
             if (File.Exists(path))
@@ -402,9 +421,9 @@ namespace Program
             }
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_MouseEnter_1(object sender, MouseEventArgs e)
         {
-            Application.Current.Shutdown(0);
+
         }
     }
 }

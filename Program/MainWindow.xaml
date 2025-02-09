@@ -5,17 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Program"
         mc:Ignorable="d"
-        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Background="{x:Null}" Icon="/icon.jpg" ResizeMode="CanMinimize">
+        Title="Video Downloader" Height="800" Width="1400" WindowStartupLocation="CenterScreen" Foreground="{x:Null}" Icon="/icon.jpg" ResizeMode="CanMinimize" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
 
-    <Grid x:Name="grdMain" Background="#FF191919" HorizontalAlignment="Center" VerticalAlignment="Center" Height="796" Width="1400" OpacityMask="Black">
+    <Grid x:Name="grdMain" Background="#FF191919" HorizontalAlignment="Center" VerticalAlignment="Center" Height="796" Width="1400">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="107*"/>
             <ColumnDefinition Width="173*"/>
         </Grid.ColumnDefinitions>
 
+
+        <DockPanel x:Name="DpTitleBar" LastChildFill="False" Grid.Column="1" Margin="0,0,0,767" Grid.ColumnSpan="2" MouseLeftButtonDown="TitleBarDrag_MouseDown" Background="#FF191919">
+            <Button x:Name="BtnClose" Content="×" HorizontalContentAlignment="Center" DockPanel.Dock="Right" Width="34" BorderBrush="{x:Null}" ClickMode="Press" Click="BtnClose_Click" FontSize="24" RenderTransformOrigin="0.5,0.164" FontWeight="Light" Height="29">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <!-- Default Foreground and Background -->
+                        <Setter Property="Foreground" Value="#FF676767"/>
+                        <Setter Property="Background" Value="#FF191919"/>
+
+                        <!-- Hover Trigger -->
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="Red"/>
+                                <Setter Property="Background" Value="#FF676767"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <!-- Template Setter, placed outside the Style.Setters block -->
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </DockPanel>
+
         <!-- Download Button -->
-        <Button x:Name="btnDownload" Content="Download Video" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24" Margin="75,610,155,116" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDownload_Click" ToolTip="Start your download.">
+        <Button x:Name="btnDownload" Content="Download Video" Grid.Column="2" Foreground="#FF197DCC" FontWeight="Bold" FontSize="24" Margin="75,610,155,116" Background="#FF464646" BorderBrush="{x:Null}" Click="BtnDownload_Click" ToolTip="Start your download.">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" 
@@ -38,7 +68,7 @@
         </Button>
 
         <!-- Folder Button -->
-        <Button x:Name="btnDirectory" Content="📁" Grid.Column="2" Foreground="#FF197DCC" FontSize="24" Margin="716,610,75,116" Background="#FF464646" BorderBrush="{x:Null}" Click="btnDirectory_Click" ToolTip="Select Download folder destination.">
+        <Button x:Name="btnDirectory" Content="📁" Grid.Column="2" Foreground="#FF197DCC" FontSize="24" Margin="716,610,75,116" Background="#FF464646" BorderBrush="{x:Null}" Click="BtnDirectory_Click" ToolTip="Select Download folder destination.">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Border x:Name="border" 
@@ -61,7 +91,7 @@
         </Button>
 
         <!-- Smaller Items -->
-        <TextBox GotFocus="txtURL_GotFocus" LostFocus="txtURL_LostFocus" x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,300,75,460" Background="#FF636363" FontSize="18" Foreground="White" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="txtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}" ToolTip="Paste Your Link Here" Text="⌘ Paste Link Here"/>
+        <TextBox GotFocus="TxtURL_GotFocus" LostFocus="TxtURL_LostFocus" x:Name="txtURL" TextWrapping="Wrap" Grid.Column="2" Margin="75,300,75,460" Background="#FF636363" FontSize="18" Foreground="White" TextAlignment="Center" SelectionBrush="#FF197DCC" TextChanged="TxtURL_TextChanged" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{x:Null}" ToolTip="Paste Your Link Here" Text="⌘ Paste Link Here"/>
         <Border x:Name="bdrView" BorderBrush="#FF197DCC" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="728" Width="498" Grid.Column="1" CornerRadius="10,10,10,10" Margin="0,34,0,0">
             <Image x:Name="imgThumbNail" Grid.ColumnSpan="2" Grid.IsSharedSizeScope="True" Stretch="UniformToFill" Width="400" Height="225" Margin="48,48,48,470" Source="/test-image-thumbnail.jpg"/>
         </Border>
