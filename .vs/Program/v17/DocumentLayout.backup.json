@@ -28,11 +28,15 @@
               "RelativeDocumentMoniker": "Program\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml.cs",
               "RelativeToolTip": "Program\\MainWindow.xaml.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAIAwwOAAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAUwLAAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-28T12:16:21.333Z",
               "IsPinned": true,
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",

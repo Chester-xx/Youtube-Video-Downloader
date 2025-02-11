@@ -1,22 +1,11 @@
-﻿// TODO
-// what if user has different drive letter?
-
-
-using System.Diagnostics;
-using System.IO;
-using System.Numerics;
-using System.Runtime.InteropServices;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
 
@@ -24,15 +13,13 @@ namespace Program
 {
     public partial class MainWindow : Window
     {
-        // debounce timer
-        private bool Init = false;
-        private bool TypeInit = false;
-        private System.Timers.Timer debounceTimer = new(1000) { AutoReset = false };
-
         // Globals
         private string? DIR = null;
-        private double _height;
-        private double _opacity = 1;
+        private bool Init = false;
+        private bool TypeInit = false;
+
+        // debounce timer
+        private readonly System.Timers.Timer debounceTimer = new(1000) { AutoReset = false };
 
         // config for json file
         public class Config

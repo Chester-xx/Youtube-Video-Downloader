@@ -1,7 +1,3 @@
-C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Program.exe
-C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Program.deps.json
-C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Program.runtimeconfig.json
-C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Program.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Newtonsoft.Json.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\YoutubeDLSharp.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Microsoft.CSharp.dll
@@ -397,17 +393,22 @@ C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\InitWindow.g.cs
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\MainWindow.g.cs
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\App.g.cs
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program_MarkupCompile.cache
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program_MarkupCompile.lref
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\InitWindow.baml
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\MainWindow.baml
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.g.resources
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.GeneratedMSBuildEditorConfig.editorconfig
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.AssemblyInfoInputs.cache
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.AssemblyInfo.cs
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.csproj.CoreCompileInputs.cache
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.csproj.Up2Date
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.dll
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\refint\Program.dll
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.genruntimeconfig.cache
-C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\ref\Program.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Video Downloader.exe
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Video Downloader.deps.json
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Video Downloader.runtimeconfig.json
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader_Content.g.cs
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader_MarkupCompile.cache
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader_MarkupCompile.lref
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader.g.resources
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\refint\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\ref\Video Downloader.dll
