@@ -146,12 +146,12 @@
             <ProgressBar x:Name="prgbarDownload" Grid.ColumnSpan="3" Height="10" Margin="0,786,0,0" Background="#FF464646" BorderBrush="#FF464646" Foreground="#FF0078D7"/>
             <Label x:Name="lblSpeed" Grid.ColumnSpan="2" Margin="69,584,69,181" Background="{x:Null}" Foreground="White" Content="Speed :"/>
             <Label x:Name="lblDirectory" Content="Download Destination" Grid.ColumnSpan="2" Margin="68,552,69,219" Foreground="White"/>
-            <Label x:Name="lblTitle" Grid.ColumnSpan="2" Margin="68,318,69,443" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
-            <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,355,69,415" Background="{x:Null}" Foreground="White" Content="Views :"/>
-            <Label x:Name="lblAuthor" Margin="68,383,69,382" Grid.Column="1" Foreground="White" Height="31" Content="Author :"/>
-            <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,416,69,354" Foreground="White" Content="Likes :"/>
-            <Label x:Name="lblFormat" Grid.Column="1" Margin="69,444,69,322" Height="30" Foreground="White" Content="Format :"/>
-            <Label x:Name="lblURL" Margin="69,476,69,294" Grid.Column="1" Foreground="White" Content="Link :"/>
+            <Label x:Name="lblTitle" Grid.ColumnSpan="2" Margin="68,318,69,436" HorizontalContentAlignment="Center" Background="{x:Null}" Foreground="White" FontSize="22" FontWeight="Bold" />
+            <Label x:Name="lblViewCount" Grid.ColumnSpan="2" Margin="69,365,69,405" Background="{x:Null}" Foreground="White" Content="Views :"/>
+            <Label x:Name="lblAuthor" Margin="68,394,69,371" Grid.Column="1" Foreground="White" Height="31" Content="Author :"/>
+            <Label x:Name="lblLikeCount" Grid.Column="1" Margin="69,427,69,343" Foreground="White" Content="Likes :"/>
+            <Label x:Name="lblFormat" Grid.Column="1" Margin="69,454,69,312" Height="30" Foreground="White" Content="Format :"/>
+            <Label x:Name="lblURL" Margin="69,486,69,284" Grid.Column="1" Foreground="White" Content="Link :"/>
             <Label x:Name="lblVideoInfo" Content="Video Information" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Margin="158,55,159,711" Foreground="#FF197DCC" FontSize="16" FontWeight="Bold"/>
 
             <!-- Standard -->
