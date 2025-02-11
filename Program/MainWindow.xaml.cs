@@ -4,14 +4,19 @@
 
 using System.Diagnostics;
 using System.IO;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
 
@@ -19,11 +24,16 @@ namespace Program
 {
     public partial class MainWindow : Window
     {
-        // debouncer
-        private readonly System.Timers.Timer debounceTimer = new(500) { AutoReset = false };
+        // debounce timer
+        private bool Init = false;
+        private bool TypeInit = false;
+        private System.Timers.Timer debounceTimer = new(1000) { AutoReset = false };
 
         // Globals
-        string? DIR = null;
+        private string? DIR = null;
+        private double _height;
+        private double _opacity = 1;
+
         // config for json file
         public class Config
         {
@@ -37,14 +47,25 @@ namespace Program
             InitializeComponent();
             InitializeApplication();
 
-            // debouncer
-            debounceTimer.Elapsed += async (sender, e) => await Dispatcher.InvokeAsync(FetchVideoInfo);
+            this.Loaded += (s, e) => ClipCorners();
         }
 
         // BUTTONS & APP LOGIC
 
+        // corner clipping/custom TItle Bar
+        private void ClipCorners()
+        {
+            double CRad = 20;
+            this.Clip = new RectangleGeometry(new Rect(0, 0, this.ActualWidth, this.ActualHeight), CRad, CRad);
+        }
+
+        private void BtnDownload_Click(object sender, RoutedEventArgs e)
+        {
+            BtnDownload_Click(sender, e, lblStatus);
+        }
+
         // User clicks on download button
-        private async void BtnDownload_Click(object sender, RoutedEventArgs e)
+        private async void BtnDownload_Click(object sender, RoutedEventArgs e, Label lblStatus)
         {
             // Did the user enter a URL?
             if (GetURL() is bool noURL && noURL == true)
@@ -67,7 +88,7 @@ namespace Program
                 OutputFolder = $@"{GetDir()}"
             };
 
-            lblStatus.Content = "Busy...";
+            lblStatus.Content = "Downloading...";
 
             // create progress and output instances
             var DownloadProgress = new Progress<DownloadProgress>((progress) => ShowProgress(progress));
@@ -76,23 +97,39 @@ namespace Program
             RunResult<string> ErrorState;
             RunResult<string> ErrorStateVideo;
             RunResult<string> ErrorStateAudio;
+            bool sc1 = false;
+            bool sc2 = false;
+            bool sc3 = false;
+            bool sc4 = false;
 
             // Standard
             if (rgbCombined.IsChecked == true)
             {
                 ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+                if (ErrorState.Success)
+                {
+                    sc1 = true;
+                }
             }
 
             // Video
             else if (rgbVideo.IsChecked == true)
             {
                 ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                if (ErrorState.Success)
+                {
+                    sc2 = true;
+                }
             }
 
             // Audio
             else if (rgbAudio.IsChecked == true)
             {
                 ErrorState = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+                if (ErrorState.Success)
+                {
+                    sc3 = true;
+                }
             }
 
             // Video + Audio
@@ -100,6 +137,10 @@ namespace Program
             {
                 ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
                 ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+                if (ErrorStateVideo.Success && ErrorStateAudio.Success)
+                {
+                    sc4 = true;
+                }
             }
 
             // No method selected for download
@@ -109,10 +150,15 @@ namespace Program
                 return;
             }
 
-            // NEED TO FIND WAY TO IMPLEMENT ERROR HANDLING AS CURRENT METHOD FAULTY AND NEEDED TO BE REMOVED
-            // ErrorState.Success OR ErrorStateVideo/Audio.Success
-
-            lblStatus.Content = "Done";
+            // Check if any errors
+            if (!sc1 && !sc2 && !sc3 && !sc4)
+            {
+                lblStatus.Content = "Failed";
+            }
+            else
+            {
+                lblStatus.Content = "Completed";
+            }
         }
 
         // User clicks on folder button
@@ -125,8 +171,23 @@ namespace Program
         // When user types in the URL textbox
         private void TxtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
-                debounceTimer.Stop();
-                debounceTimer.Start();
+            
+            if (!TypeInit)
+            {
+                return;
+            }
+
+            if (!Init)
+            {
+                debounceTimer.Elapsed += async (s, ev) =>
+                {
+                    await Dispatcher.InvokeAsync(FetchVideoInfo);
+                };
+                Init = true;
+            }
+
+            debounceTimer.Stop();
+            debounceTimer.Start();
         }
 
         // App drag method
@@ -144,11 +205,24 @@ namespace Program
             Application.Current.Shutdown(0);
         }
 
+        private void btnMinimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
         private async Task FetchVideoInfo()
         {
             // lets stop any resources from being used if there is no need
             if (string.IsNullOrWhiteSpace(txtURL.Text))
             {
+                lblStatus.Content = "Waiting for link...";
+                imgThumbNail.Source = null;
+                return;
+            }
+            if (txtURL.Text == "⌘ Paste Link Here")
+            {
+                lblStatus.Content = "Waiting for link...";
+                imgThumbNail.Source = null;
                 return;
             }
 
@@ -162,6 +236,7 @@ namespace Program
 
             try
             {
+                lblStatus.Content = "Fetching Video Info";
                 Mouse.OverrideCursor = Cursors.Wait;
                 var video = await yt.RunVideoDataFetch($@"{txtURL.Text}");
 
@@ -179,6 +254,7 @@ namespace Program
                     imgThumbNail.Source = bitmap;
 
                     // set labels
+                    lblStatus.Content = "Ready to download";
                     lblTitle.Content = $@"{data.Title}";
                     lblViewCount.Content = $@"Views : {data.ViewCount}";
                     lblAuthor.Content = $@"Author : {data.Uploader}";
@@ -214,10 +290,16 @@ namespace Program
             lblLikeCount.Content = "Likes :";
             lblFormat.Content = "Format :";
             lblURL.Content = "Link :";
+            lblStatus.Content = "Failed";
         }
 
         private void TxtURL_GotFocus(object sender, RoutedEventArgs e)
         {
+            if (!TypeInit)
+            {
+                TypeInit = true;
+            }
+
             if (txtURL.Text == "⌘ Paste Link Here")
             {
                 txtURL.Text = string.Empty;
@@ -419,11 +501,6 @@ namespace Program
             {
                 return null;
             }
-        }
-
-        private void BtnClose_MouseEnter_1(object sender, MouseEventArgs e)
-        {
-
         }
     }
 }
