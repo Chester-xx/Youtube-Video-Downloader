@@ -1,4 +1,6 @@
 # To Do List
+-   1. Add shortcut to windows desktop
+    2. Add shortcut to windows start menu
 - Improve download quality options
 - Expand video information panel (desc, duration, upload date)
 - Download history section (+redownload option?, clear history, pin favs?)
