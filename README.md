@@ -30,3 +30,6 @@ Simple C# application to download Youtube videos or audio. The program automates
 
 ## Documentation
 Compile method : dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:IncludeAllContentForSelfExtract=true
+
+AdvancedInstaller? Better Option?
+Wix? - ClickOnce?
