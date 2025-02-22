@@ -1,0 +1,7 @@
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Video Downloader.exe
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Video Downloader.dll
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Video Downloader.deps.json
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Video Downloader.runtimeconfig.json
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Video Downloader.pdb
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\Newtonsoft.Json.dll
+C:\Users\max12\OneDrive\Desktop\VideoDownloader\YoutubeDLSharp.dll

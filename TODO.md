@@ -1,6 +1,11 @@
 # To Do List
--   1. Add shortcut to windows desktop
-    2. Add shortcut to windows start menu
+
+**NOW**
+- Fix JSON handling, c# has built in methods to handle JSON files, System.Text.Json
+- Change all references to dependancy paths
+- Change path of preferences.json
+- Change dependancy installation paths, and add init method to check if deps exist, if not install
+
 - Improve download quality options
 - Expand video information panel (desc, duration, upload date)
 - Download history section (+redownload option?, clear history, pin favs?)
@@ -8,3 +13,4 @@
 - Program information and about section
 - user menu panel
 - animate downloads?
+- Language options?

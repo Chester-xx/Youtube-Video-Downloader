@@ -6,6 +6,10 @@ Copyright (c) 2025 Maximus Bergmann
 Everyone is permitted to copy and distribute verbatim copies  
 of this license document, but changing it is not allowed.  
 
+## **Overview**
+
+This software may **not be sold, licensed, rented, or otherwise used for commercial purposes** without the explicit written permission of the original author.
+
 ## **Preamble**  
 
 The GNU General Public License is a free, copyleft license for software and other kinds of works.  

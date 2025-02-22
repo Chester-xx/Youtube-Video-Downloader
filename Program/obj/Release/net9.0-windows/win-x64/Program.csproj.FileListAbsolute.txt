@@ -224,7 +224,6 @@ C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\hostfxr.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\hostpolicy.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\mscordaccore.dll
-C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\mscordaccore_amd64_amd64_9.0.124.61010.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\mscordbi.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\mscorrc.dll
 C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\msquic.dll
@@ -412,3 +411,7 @@ C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader.dll
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\refint\Video Downloader.dll
 C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\ref\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\Video Downloader.pdb
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\win-x64\mscordaccore_amd64_amd64_9.0.225.6610.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Program.sourcelink.json
+C:\Projects\C#-Video-downloader\Program\Program\obj\Release\net9.0-windows\win-x64\Video Downloader.pdb

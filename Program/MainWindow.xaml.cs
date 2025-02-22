@@ -1,10 +1,4 @@
-﻿// want to implement app dir and ect
-// start menu shortcut addition
-// desktop shortcut
-// place actual exe in C:\\...\VideoDownloader
-// maybe implement install when it does that? delete original exe on close? so app is placed inside folders and referenced to
-
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
