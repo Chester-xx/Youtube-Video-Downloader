@@ -30,6 +30,8 @@ Simple C# application to download Youtube videos or audio. The program automates
 
 ## Documentation
 Compile method : dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:SelfContained=true /p:EnableCompressionInSingleFile=true /p:DebugType=None /p:DebugSymbols=false /p:IncludeAllContentForSelfExtract=true
-
-AdvancedInstaller? Better Option?
-Wix? - ClickOnce?
+AdvancedInstaller
+Git LFS for large files:
+~cd %vd%~ -> repo
+~git lfs track "*.ext"~ -> track files, where *.ext is the file name.extension or * for multiple files
+~git add .gitattributes~ -> add filter
