@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using Newtonsoft.Json;
 
 namespace Program
 {
@@ -20,8 +19,14 @@ namespace Program
 
         private async void Download()
         {
-            await YoutubeDLSharp.Utils.DownloadYtDlp(@"C:\VideoDownloader\Dependencies");
-            await YoutubeDLSharp.Utils.DownloadFFmpeg(@"C:\VideoDownloader\Dependencies");
+            if (!File.Exists(@"Dependencies\yt-dlp.exe"))
+            {
+                await YoutubeDLSharp.Utils.DownloadYtDlp(@"Dependencies");
+            }
+            if (!File.Exists(@"Dependencies\ffmpeg.exe"))
+            {
+                await YoutubeDLSharp.Utils.DownloadFFmpeg(@"Dependencies");
+            }
             check = true;
             UpdateDependencyState();
             await Animate("");
@@ -85,14 +90,11 @@ namespace Program
 
         private void UpdateDependencyState()
         {
-            string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
-            var pref = new
-            {
-                Directory = "",
-                DependencyState = true
-            };
-            string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
-            File.WriteAllText(path, json);
+            MainWindow.CheckPref();
+            MainWindow.Preferences data = MainWindow.GetJSON();
+            data.UserInfo.DependencyState = true;
+            MainWindow.SetJSON(data);
+            MainWindow.config.UserInfo.DependencyState = true;
         }
 
         private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

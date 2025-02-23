@@ -1,11 +1,11 @@
 # To Do List
 
 **NOW**
-- Fix JSON handling, c# has built in methods to handle JSON files, System.Text.Json
-- Change all references to dependancy paths
-- Change path of preferences.json
-- Change dependancy installation paths, and add init method to check if deps exist, if not install
 
+- Find a better way to use ffmpeg when using standard download option
+    1. very slow for large files
+    2. only utilizes cpu, why not try gpu
+    3. maybe theres a better postprocess method??
 - Improve download quality options
 - Expand video information panel (desc, duration, upload date)
 - Download history section (+redownload option?, clear history, pin favs?)

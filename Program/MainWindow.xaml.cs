@@ -5,44 +5,78 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
+using System.Text.Json;
 
 namespace Program
 {
     public partial class MainWindow : Window
     {
+        //config structure
+        public class Preferences
+        {
+            public required ProgramInfo ProgramInfo { get; set; }
+            public required User UserInfo { get; set; }
+        }
+        public class ProgramInfo
+        {
+            public required Version AppVersion { get; set; }
+            public required string Website { get; set; }
+            public required string Developer { get; set; }
+            public required string Language { get; set; }
+        }
+        public class User
+        {
+            public required string Directory { get; set; }
+            public required bool DependencyState { get; set; }
+        }
+
+        // Config
+        public static Preferences config = new()
+        {
+            ProgramInfo = new ProgramInfo
+            {
+                AppVersion = new Version(1, 0, 0, 0),
+                Website = "http://github.com/Chester-xx/Youtube-Video-Downloader",
+                Developer = "Chester-xx",
+                Language = "en-US"
+            },
+            UserInfo = new User
+            {
+                Directory = string.Empty,
+                DependencyState = true
+            }
+        };
+
         // Globals
-        private string? DIR = null;
         private bool Init = false;
         private bool TypeInit = false;
 
         // debounce timer
         private readonly System.Timers.Timer debounceTimer = new(1000) { AutoReset = false };
 
-        // config for json file
-        public class Config
-        {
-            public string? Directory { get; set; }
-            public bool DependencyState { get; set; }
-        }
-
         // Main window Init
         public MainWindow()
         {
             InitializeComponent();
             InitializeApplication();
-
             this.Loaded += (s, e) => ClipCorners();
+            this.Closing += (s, e) => { SetJSON(config); CheckPref(); };
         }
 
         // BUTTONS & APP LOGIC
 
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // if any new additions need to be made in the future
+            // handles events on app close
+        }
+
         // corner clipping/custom TItle Bar
         private void ClipCorners()
         {
-            double CRad = 20;
+            double CRad = 25;
             this.Clip = new RectangleGeometry(new Rect(0, 0, this.ActualWidth, this.ActualHeight), CRad, CRad);
         }
 
@@ -55,13 +89,13 @@ namespace Program
         private async void BtnDownload_Click(object sender, RoutedEventArgs e, Label lblStatus)
         {
             // Did the user enter a URL?
-            if (GetURL() is bool noURL && noURL == true)
+            if (GetURL() is bool noURL && noURL)
             {
                 MessageBox.Show("Please enter a valid URL.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             // Did the user select a directory?
-            if (GetDir() is bool noDir && noDir == true)
+            if (String.IsNullOrEmpty(config.UserInfo.Directory) || String.IsNullOrWhiteSpace(config.UserInfo.Directory))
             {
                 MessageBox.Show("Please select a folder for your download.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -70,9 +104,9 @@ namespace Program
             // create instance of ytdl
             YoutubeDL yt = new()
             {
-                YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe",
-                FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe",
-                OutputFolder = $@"{GetDir()}"
+                YoutubeDLPath = @"Dependencies\yt-dlp.exe",
+                FFmpegPath = @"Dependencies\ffmpeg.exe",
+                OutputFolder = $@"{config.UserInfo.Directory}"
             };
 
             lblStatus.Content = "Downloading...";
@@ -158,12 +192,10 @@ namespace Program
         // When user types in the URL textbox
         private void TxtURL_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
             if (!TypeInit)
             {
                 return;
             }
-
             if (!Init)
             {
                 debounceTimer.Elapsed += async (s, ev) =>
@@ -189,6 +221,7 @@ namespace Program
         // Quit app logic
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            SetJSON(config);
             Application.Current.Shutdown(0);
         }
 
@@ -216,8 +249,8 @@ namespace Program
             // create instance of ytdl with dependency paths
             YoutubeDL yt = new()
             {
-                YoutubeDLPath = @"C:\VideoDownloader\Dependencies\yt-dlp.exe",
-                FFmpegPath = @"C:\VideoDownloader\Dependencies\ffmpeg.exe"
+                YoutubeDLPath = @"Dependencies\yt-dlp.exe",
+                FFmpegPath = @"Dependencies\ffmpeg.exe"
             };
             // get video information
 
@@ -349,7 +382,7 @@ namespace Program
             return txtURL.Text;
         }
 
-        // sets directory in file storage and updates global DIR
+        // sets directory in file storage and updates config preference class attribute
         public void SetDir()
         {
             // prompt file explorer
@@ -359,94 +392,33 @@ namespace Program
             // if no folder selected
             if (check == false)
             {
+                lblDirectory.Content = "Download Destination : None";
                 return;
             }
 
-            DIR = dialog.FolderName;
-
-            // update contents of preference.json file, for when app is opened next time
-            string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
-            var pref = new
-            {
-                Directory = $@"{DIR}",
-                DependencyState = true
-            };
-            string json = JsonConvert.SerializeObject(pref, Formatting.Indented);
-            File.WriteAllText(path, json);
-            lblDirectory.Content = $@"{DIR}";
-        }
-
-        // gets global DIR
-        public object GetDir()
-        {
-            // flag in logic
-            if (DIR == null)
-            {
-                return true;
-            }
-            return $@"{DIR}";
+            config.UserInfo.Directory = dialog.FolderName;
+            lblDirectory.Content = config.UserInfo.Directory;
+            SetJSON(config);
         }
 
         // ON APP LOAD
         private void InitializeApplication()
         {
-            // states of tests
-            bool? DependencyState = null;
-            bool? PreferenceState = null;
+            CheckPref();
+            config = GetJSON();
 
-            // check if main dir of program exists
-            if (!Directory.Exists(@"C:\VideoDownloader"))
+            //check if dependency executables exist or directory itself
+            if ((Directory.Exists(@"Dependencies") is bool dir && !dir) || !File.Exists(@"Dependencies\ffmpeg.exe") || !File.Exists(@"Dependencies\yt-dlp.exe"))
             {
-                Directory.CreateDirectory(@"C:\VideoDownloader");
-                Directory.CreateDirectory(@"C:\VideoDownloader\Dependencies");
-                Directory.CreateDirectory(@"C:\VideoDownloader\UserPreferences");
-                DependencyState = false;
-            }
-            // check if sub dir exists
-            if (!Directory.Exists(@"C:\VideoDownloader\Dependencies"))
-            {
-                Directory.CreateDirectory(@"C:\VideoDownloader\Dependencies");
-                DependencyState = false;
-            }
-            // check if sub dir exists
-            if (!Directory.Exists(@"C:\VideoDownloader\UserPreferences"))
-            {
-                Directory.CreateDirectory(@"C:\VideoDownloader\UserPreferences");
-                PreferenceState = false;
-            }
-            // check if pref.json exists
-            if (!File.Exists(@"C:\VideoDownloader\UserPreferences\preferences.json"))
-            {
-                PreferenceState = false;
-            }
-
-            // if preference folder did not exist : create json file
-            if (PreferenceState == false)
-            {
-                string path = @"C:\VideoDownloader\UserPreferences\preferences.json";
-                var pref2 = new
+                if (!dir)
                 {
-                    Directory = "",
-                    DependencyState = false
-                };
-                string json2 = JsonConvert.SerializeObject(pref2, Formatting.Indented);
-                File.WriteAllText(path, json2);
-                DIR = null;
-            }
-
-            // if preference.json exists : check dependency state
-            if (DependencyState == null)
-            {
-                DependencyState = GetDependencyState();
-                // if still null, C# logic ?? lines in code bracket still run
-                if (DependencyState == null)
-                {
-                    MessageBox.Show("Preference Error...", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    Directory.CreateDirectory(@"Dependencies");
                 }
+                config.UserInfo.DependencyState = false;
             }
+
             // if dependencies are not installed : install
-            if (DependencyState == false)
+            if (!config.UserInfo.DependencyState)
             {
                 // window prompt
                 InitWindow initWindow = new InitWindow();
@@ -458,38 +430,36 @@ namespace Program
                 };
             }
 
-            // init dir label and var
-            string json = File.ReadAllText(@"C:\VideoDownloader\UserPreferences\preferences.json");
-            var pref = JsonConvert.DeserializeObject<Config>(json);
-
             // if directory from json file empty
-            if (string.IsNullOrEmpty(value: pref.Directory))
+            if (!string.IsNullOrEmpty(config.UserInfo.Directory) || !string.IsNullOrWhiteSpace(config.UserInfo.Directory))
             {
-                DIR = null;
+                lblDirectory.Content = config.UserInfo.Directory;
             }
-            else // otherwise set DIR
-            {
-                DIR = pref.Directory;
-                lblDirectory.Content = DIR;
-            }
-
-            // check for 
-
         }
 
-        // Gets Dependancy variable from json file
-        private static bool? GetDependencyState()
+        // returns a static accessible Preference class of stored file, which is basically just the contents of the preferences.json file
+        public static Preferences GetJSON()
         {
-            string path = Path.Combine(@"C:\VideoDownloader\UserPreferences", "preferences.json");
-            if (File.Exists(path))
+            Preferences? data = JsonSerializer.Deserialize<Preferences>(File.ReadAllText(@"UserPreferences\preferences.json"));
+            if (data == null)
             {
-                string json = File.ReadAllText(path);
-                var pref = JsonConvert.DeserializeObject<Config>(json);
-                return pref.DependencyState;
+                return config;
             }
-            else
+            return data;
+        }
+
+        public static void SetJSON(Preferences data)
+        {
+            File.WriteAllText(@"UserPreferences\preferences.json", JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
+        }
+
+        public static void CheckPref()
+        {
+            // ensure directories and files exist before accessing them
+            if (!Directory.Exists(@"UserPreferences") || !File.Exists(@"UserPreferences\preferences.json"))
             {
-                return null;
+                Directory.CreateDirectory(@"UserPreferences");
+                SetJSON(config);
             }
         }
     }

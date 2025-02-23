@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Video Downloader" Height="350" Width="700" Icon="/icon.jpg" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid Background="#FF191919" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-        <Label x:Name="lblMain" Content="Before We Start" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="48" FontFamily="Arial Black"/>
+        <Label x:Name="lblMain" Content="Some Files Are Missing" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="48" FontFamily="Arial Black"/>
     </Grid>
 </Window>
