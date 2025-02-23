@@ -8,7 +8,6 @@
     ".NETCoreApp,Version=v9.0": {
       "Video Downloader/1.0.0": {
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3",
           "YoutubeDLSharp": "1.1.1"
         },
         "runtime": {

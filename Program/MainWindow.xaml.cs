@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
 using System.Text.Json;
+using YoutubeDLSharp.Options;
 
 namespace Program
 {
@@ -37,7 +38,7 @@ namespace Program
         {
             ProgramInfo = new ProgramInfo
             {
-                AppVersion = new Version(1, 0, 0, 0),
+                AppVersion = new Version(1, 2, 0, 1),
                 Website = "http://github.com/Chester-xx/Youtube-Video-Downloader",
                 Developer = "Chester-xx",
                 Language = "en-US"
@@ -126,7 +127,25 @@ namespace Program
             // Standard
             if (rgbCombined.IsChecked == true)
             {
+                // overrideOptions: opts
+                //var opts = new OptionSet()
+                //{
+                //    Format = "bestvideo+bestaudio/best",
+                //    RestrictFilenames = true,
+                //    NoMtime = true,
+                //    FragmentRetries = int.MaxValue,
+                //    ConcurrentFragments = 5,
+                //    RecodeVideo = VideoRecodeFormat.Mp4,
+                //    PostprocessorArgs = new[]
+                //    {
+                //        "ffmpeg:-vcodec h264_nvenc",
+                //        "ffmpeg_i1:-hwaccel cuda -hwaccel_output_format cuda"
+                //    }
+                //};
+                //ErrorState = await yt.RunWithOptions(url: $@"{GetURL()}",options: opts, output: Output, progress: DownloadProgress);
+                
                 ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+
                 if (ErrorState.Success)
                 {
                     sc1 = true;
