@@ -1,6 +1,7 @@
 # To Do List
 
 **NOW**
+- Create licenses in app, if non existant under dir: \License\License.md && License.rtf
 
 - Find a better way to use ffmpeg when using standard download option
     1. very slow for large files
