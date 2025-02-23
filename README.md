@@ -1,8 +1,8 @@
 # Youtube Video Downloader - Chester-xx
 
-### Download the app here : https://github.com/Chester-xx/Youtube-Video-Downloader/releases
+### Download the latest release here : https://github.com/Chester-xx/Youtube-Video-Downloader/releases/download/v1.2.0.1/Video-Downloader-Setup.exe
 
-![Screenshot 2025-02-11 212732](https://github.com/user-attachments/assets/60133810-6fa9-405e-839f-cf07bfa28653)
+![Screenshot 2025-02-23 185257](https://github.com/user-attachments/assets/24881bdf-fd77-4229-84b1-8fa321b1b3f2)
 
 ## Overview
 Simple C# application to download Youtube videos or audio. The program automates the downloading process directly onto the users computer, enabling videos to be acquisitioned in high-quality format. This interface provides a user-friendly experience while delivering a fast and reliable method to save media files. Ideal for anyone looking to save and access content for editing and creating their own material.
