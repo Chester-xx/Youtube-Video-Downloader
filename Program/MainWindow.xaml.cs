@@ -9,6 +9,7 @@ using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
 using System.Text.Json;
 using YoutubeDLSharp.Options;
+using System.Diagnostics;
 
 namespace Program
 {
@@ -127,26 +128,16 @@ namespace Program
             // Standard
             if (rgbCombined.IsChecked == true)
             {
-                // overrideOptions: opts
-                //var opts = new OptionSet()
-                //{
-                //    Format = "bestvideo+bestaudio/best",
-                //    RestrictFilenames = true,
-                //    NoMtime = true,
-                //    FragmentRetries = int.MaxValue,
-                //    ConcurrentFragments = 5,
-                //    RecodeVideo = VideoRecodeFormat.Mp4,
-                //    PostprocessorArgs = new[]
-                //    {
-                //        "ffmpeg:-vcodec h264_nvenc",
-                //        "ffmpeg_i1:-hwaccel cuda -hwaccel_output_format cuda"
-                //    }
-                //};
-                //ErrorState = await yt.RunWithOptions(url: $@"{GetURL()}",options: opts, output: Output, progress: DownloadProgress);
-                
-                ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+                // -> download using youtubedl : get both video and audio
+                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = "dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = "daudio.mp3" });
+                // -> recode using ffmpeg to merge contents : using gpu? quicker method than normal, call a subprocess
 
-                if (ErrorState.Success)
+                //ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
+
+                // DOWNLOAD PROBLEMS
+
+                if (ErrorStateVideo.Success && ErrorStateAudio.Success)
                 {
                     sc1 = true;
                 }
