@@ -20,6 +20,7 @@ namespace Program
         {
             public required ProgramInfo ProgramInfo { get; set; }
             public required User UserInfo { get; set; }
+            public required DownloadOptions DownloadOptionsInfo { get; set; }
         }
         public class ProgramInfo
         {
@@ -32,6 +33,13 @@ namespace Program
         {
             public required string Directory { get; set; }
             public required bool DependencyState { get; set; }
+        }
+        public class DownloadOptions
+        {
+            public required string Directory { get; set; }
+            public required string AudioQuality { get; set; }
+            public required string VideoQuality { get; set; }
+
         }
 
         // Config
@@ -48,6 +56,12 @@ namespace Program
             {
                 Directory = string.Empty,
                 DependencyState = true
+            },
+            DownloadOptionsInfo = new DownloadOptions
+            {
+                Directory = string.Empty,
+                AudioQuality = string.Empty,
+                VideoQuality = string.Empty
             }
         };
 
@@ -108,7 +122,7 @@ namespace Program
             {
                 YoutubeDLPath = @"Dependencies\yt-dlp.exe",
                 FFmpegPath = @"Dependencies\ffmpeg.exe",
-                OutputFolder = $@"{config.UserInfo.Directory}"
+                OutputFolder = $@"{config.DownloadOptionsInfo.Directory}"
             };
 
             lblStatus.Content = "Downloading...";
@@ -127,20 +141,52 @@ namespace Program
 
             // Standard
             if (rgbCombined.IsChecked == true)
-            {
-                // -> download using youtubedl : get both video and audio
-                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = "dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
-                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = "daudio.mp3" });
-                // -> recode using ffmpeg to merge contents : using gpu? quicker method than normal, call a subprocess
+            {   //
+                // FIX process, error exitcode -2, problem with args when starting ffmpeg process : need to fix this
+                //
 
+
+                yt.OutputFolder = $@"Dependencies\";
+
+                // -> download using youtubedl : get both video and audio
+                //ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = $@"Dependencies\dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = $@"Dependencies\dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" });
+                // create output file + dfiles, ffmpeg path and args for process
+                string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
+                string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp4");
+                string outFile = Path.Combine(config.DownloadOptionsInfo.Directory, "merged.mp4");
+                string ffmpegPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe");
+                string ffmpegArgs = $"-i \"{dvideo}\" -i \"{daudio}\" -c:v copy -c:a copy \"{outFile}\"";
+                // -> merge video and audio using ffmpeg : output to directory
+                ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
+                {
+                    FileName = ffmpegPath,
+                    Arguments = ffmpegArgs,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+                // -> start process and wait for exit : show progress
+                using (Process ffmpegProcess = new Process { StartInfo = FFMpegProcessStartInfo})
+                {
+                    //ffmpegProcess.OutputDataReceived += (sender, e) => ShowFFMpegProgress(e.Data, false);
+                    //ffmpegProcess.ErrorDataReceived += (sender, e) => ShowFFMpegProgress(e.Data, true);
+                    ffmpegProcess.Start();
+                    ffmpegProcess.BeginOutputReadLine();
+                    ffmpegProcess.BeginErrorReadLine();
+                    ffmpegProcess.WaitForExit();
+
+                    MessageBox.Show(Convert.ToString(ffmpegProcess.ExitCode));
+                }
+                // contains old code, if new code cant be implemented, i will be forced to revert to this
                 //ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
 
-                // DOWNLOAD PROBLEMS
-
-                if (ErrorStateVideo.Success && ErrorStateAudio.Success)
-                {
-                    sc1 = true;
-                }
+                    if (ErrorStateVideo.Success && ErrorStateAudio.Success)
+                    {
+                        sc1 = true;
+                    }
             }
 
             // Video
@@ -378,6 +424,24 @@ namespace Program
             else // when its not empty output speed and ETA
             {
                 lblSpeed.Content = $"{progress.DownloadSpeed}\t{progress.ETA}";
+            }
+        }
+
+        private void ShowFFMpegProgress(string? data, bool isError)
+        {
+            if (data != null)
+            {
+                lblOutput.Dispatcher.Invoke(new Action(() =>
+                {
+                    if (isError)
+                    {
+                        lblOutput.Content = "Error: " + data;
+                    }
+                    else
+                    {
+                        lblOutput.Content = data;
+                    }
+                }));
             }
         }
 
