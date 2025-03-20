@@ -1,3 +1,5 @@
+- New release coming soon after implementation of subprocess trackers
+
 # Youtube Video Downloader - Chester-xx
 
 ### Download the latest release here : https://github.com/Chester-xx/Youtube-Video-Downloader/releases/download/v1.2.0.1/Video-Downloader-Setup.exe
