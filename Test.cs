@@ -1,110 +1,69 @@
-﻿using System;
-
-// all methods would be called under the RoutedEventArgs of the btnMinimize call
-
-// USER MINIMIZES USING BUTTON
-// minimize() -> ResetWindow()
-
-// USER MAXIMISES USING TASK BAR
-// WindowStateChange()
-
-// USER MINIMIZES USING TASK BAR ??????????????????
-// WindowStateChange() ?? Failure
-
-public class Class1
+﻿if (rgbCombined.IsChecked == true)
 {
-	public Class1()
+    DeleteDownloadFiles();
+    yt.OutputFolder = @"Dependencies\";
+
+    lblOutput.Content = "Downloading video...";
+    prgbarDownload.Value = 0;
+
+    var DownloadProgress_ = new Progress<double>((progress) => ShowYTDLProgress(progress));
+
+    ProcessStartInfo ytdlpInfo = new ProcessStartInfo()
     {
-        // Failed animation implementation
+        FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "yt-dlp.exe"),
+        Arguments = $"-f bestvideo[ext=webm] --remux-video mp4 -o Dependencies\\dvideo.mp4 {GetURL()}",
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false,
+        CreateNoWindow = true
+    };
 
-        private async void Minimize()
+    int YEC;
+
+    using (Process ytdlpProcess = new Process { StartInfo = ytdlpInfo })
+    {
+        ytdlpProcess.OutputDataReceived += (sender, args) =>
         {
-            // pointer to original values before changes
-            _height = this.ActualHeight;
-            _opacity = this.Opacity;
-
-            DoubleAnimation heightAnimation = new()
+            if (!string.IsNullOrEmpty(args.Data))
             {
-                To = 0,
-                Duration = TimeSpan.FromSeconds(0.3),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-            };
+                lblOutput.Dispatcher.Invoke(() => lblOutput.Content = $"yt-dlp: {args.Data}");
 
-            DoubleAnimation opacityAnimation = new()
-            {
-                To = 0,
-                Duration = TimeSpan.FromSeconds(0.3),
-                EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseInOut }
-            };
-
-            this.BeginAnimation(Window.HeightProperty, heightAnimation);
-            this.BeginAnimation(Window.OpacityProperty, opacityAnimation);
-
-            await Task.Delay(350);
-            // remove the animation privileges
-            this.BeginAnimation(Window.HeightProperty, null);
-            this.BeginAnimation(Window.OpacityProperty, null);
-
-            await ResetWindow();
-        }
-
-        async Task ResetWindow()
-        {
-            await Task.Delay(400);
-            this.WindowState = WindowState.Minimized;
-            this.Height = _height;
-            this.Opacity = _opacity;
-        }
-
-        private void WindowStateChange(object sender, EventArgs e)
-        {
-            if (this.WindowState == WindowState.Normal)
-            {
-                Dispatcher.BeginInvoke((Action)(async () =>
+                Match match = Regex.Match(args.Data, @"\[download\] (\d+(\.\d+)?)%");
+                if (match.Success)
                 {
-                    // remove previous animation privileges
-                    this.BeginAnimation(Window.HeightProperty, null);
-                    this.BeginAnimation(Window.OpacityProperty, null);
-
-                    DoubleAnimation heightAnimation = new()
-                    {
-                        From = 0,
-                        To = _height,
-                      Duration = TimeSpan.FromSeconds(0.3),
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-                    };
-
-                    DoubleAnimation opacityAnimation = new()
-                    {
-                        From = 0,
-                        To = _opacity,
-                        Duration = TimeSpan.FromSeconds(0.3),
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
-                    };
-
-                    // begin new animation
-                    this.BeginAnimation(Window.HeightProperty, heightAnimation);
-                    this.BeginAnimation(Window.OpacityProperty, opacityAnimation);
-
-                    await Task.Delay(350);
-                    // remove the animation
-                    this.BeginAnimation(Window.HeightProperty, null);
-                    this.BeginAnimation(Window.OpacityProperty, null);
-
-                    // reset height and opacity
-                    this.Height = _height;
-                    this.Opacity = _opacity;
-
-                }), System.Windows.Threading.DispatcherPriority.ApplicationIdle);
+                    double progressValue = double.Parse(match.Groups[1].Value);
+                    ((IProgress<double>)DownloadProgress_).Report(progressValue);
+                }
             }
-            else if (this.WindowState == WindowState.Minimized)
-            {
-            // breaker ??
-            // worked up until addition of this call, this call was made because the animation would
-            // not occur if the user minimized it from the task bar.
+        };
 
-            //Minimize();
-        }
+        ytdlpProcess.ErrorDataReceived += (sender, args) =>
+        {
+            if (!string.IsNullOrEmpty(args.Data))
+                lblOutput.Dispatcher.Invoke(() => lblOutput.Content = $"yt-dlp Error: {args.Data}");
+        };
+
+        ytdlpProcess.Start();
+        ytdlpProcess.BeginOutputReadLine();
+        ytdlpProcess.BeginErrorReadLine();
+        ytdlpProcess.WaitForExit();
+        YEC = ytdlpProcess.ExitCode;
     }
+
+    ((IProgress<double>)DownloadProgress).Report(100);
+
+    if (YEC != 0)
+    {
+        MessageBox.Show($"yt-dlp failed with exit code: {YEC}", "Error");
+        sc1 = false;
+        return;
     }
+
+    lblOutput.Content = "Processing completed.";
 }
+
+
+// 
+// 
+// 
+// 

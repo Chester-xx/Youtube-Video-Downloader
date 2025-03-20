@@ -10,6 +10,7 @@ using YoutubeDLSharp.Metadata;
 using System.Text.Json;
 using YoutubeDLSharp.Options;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Program
 {
@@ -153,27 +154,61 @@ namespace Program
 
             // Standard
             if (rgbCombined.IsChecked == true)
-            {   
+            {
+
+                // -> Need to implement a download and output tracker for both ytdlp and ffmpeg
+
                 DeleteDownloadFiles();
 
                 yt.OutputFolder = $@"Dependencies\";
 
-                // FIX : Download method does not format correctly
-                ErrorStateVideo = await yt.RunVideoDownload($@"{GetURL()}", format: "bestvideo", output: Output, progress: DownloadProgress, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\dvideo.mp4" });
-                
+                // yt-dlp -f "bestvideo[ext=webm]" --remux-video mp4 -o "video.mp4" "<VIDEO_URL>"
+
+                ProcessStartInfo ytdlpInfo = new ProcessStartInfo()
+                {
+                    FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "yt-dlp.exe"),
+                    Arguments = $"-f bestvideo[ext=webm] --remux-video mp4 -o Dependencies\\dvideo.mp4 {GetURL()}",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
+
+                int YEC;
+
+                using (Process ytdlpProcess = new Process { StartInfo = ytdlpInfo })
+                {
+                    ytdlpProcess.Start();
+                    ytdlpProcess.BeginOutputReadLine();
+                    ytdlpProcess.BeginErrorReadLine();
+                    ytdlpProcess.WaitForExit();
+                    YEC = ytdlpProcess.ExitCode;
+                }
+
+                if (YEC != 0)
+                {
+                    MessageBox.Show($"YoutubeDL failed with exit code : {YEC}", "Error");
+                    sc1 = false;
+                    return;
+                }
+
                 ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" });
                 // create output file + dfiles, ffmpeg path and args for process
                 string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
                 string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
                 string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
-                string ffmpegPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe");
-                string ffmpegArgs = $"-i \"{dvideo}\" -i \"{daudio}\" -c:v copy -c:a copy \"{outFile}\"";
-                
+
+                if (!ErrorStateAudio.Success)
+                {
+                    sc1 = false;
+                    return;
+                }
+
                 // -> merge video and audio using ffmpeg : output to directory
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
                 {
-                    FileName = ffmpegPath,
-                    Arguments = ffmpegArgs,
+                    FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe"),
+                    Arguments = $"-i \"{dvideo}\" -i \"{daudio}\" -c:v copy -c:a copy \"{outFile}\"",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
@@ -183,7 +218,7 @@ namespace Program
 
                 int FEC;
 
-                using (Process ffmpegProcess = new Process { StartInfo = FFMpegProcessStartInfo})
+                using (Process ffmpegProcess = new Process { StartInfo = FFMpegProcessStartInfo })
                 {
                     ffmpegProcess.Start();
                     ffmpegProcess.BeginOutputReadLine();
@@ -192,16 +227,19 @@ namespace Program
                     FEC = ffmpegProcess.ExitCode;
                 }
 
-                // contains old code, if new code cant be implemented, i will be forced to revert to this
-                //ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
-
                 DeleteDownloadFiles();
 
-                if (ErrorStateVideo.Success && ErrorStateAudio.Success)
+                if (ErrorStateAudio.Success)
                 {
                     sc1 = true;
                     if (FEC != 0)
                     {
+                        MessageBox.Show($"FFMpeg failed with exit code : {FEC}", "Error");
+                        sc1 = false;
+                    }
+                    if (YEC != 0)
+                    {
+                        MessageBox.Show($"YoutubeDL failed with exit code : {YEC}", "Error");
                         sc1 = false;
                     }
                 }
@@ -425,6 +463,11 @@ namespace Program
                 str = str.Insert(i, "\n");
             }
             return str;
+        }
+
+        private void ShowYTDLProgress(double data)
+        {
+            lblOutput.Content = data.ToString();
         }
 
         // Updates download progress of videos

@@ -1,16 +1,14 @@
 # To Do List
+- Need to implement a download and output tracker for both ytdlp and ffmpeg
+    1. Standard Download
+    2. Create event updaters for both
+    3. Must not freeze the processes of the main program while the command lines run
 
 **NOW**
-- Create licenses in app, if non existant under dir: \License\License.md && License.rtf
-
-- Find a better way to use ffmpeg when using standard download option
-    1. very slow for large files
-    2. only utilizes cpu, why not try gpu
-    3. maybe theres a better postprocess method??
 - Improve download quality options
 - Expand video information panel (desc, duration, upload date)
 - Download history section (+redownload option?, clear history, pin favs?)
-- add option so save file as a speecific name (in preview add final file name.ext)
+- add option so save file as a specific name (in preview add final file name.ext)
 - Program information and about section
 - user menu panel
 - animate downloads?
