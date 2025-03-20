@@ -159,6 +159,7 @@ namespace Program
                 string ffmpegPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe");
                 string ffmpegArgs = $"-i \"{dvideo}\" -i \"{daudio}\" -c:v copy -c:a copy \"{outFile}\"";
                 // -> merge video and audio using ffmpeg : output to directory
+                MessageBox.Show(ffmpegPath);
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
                 {
                     FileName = ffmpegPath,
