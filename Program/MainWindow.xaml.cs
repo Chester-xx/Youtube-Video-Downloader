@@ -89,7 +89,7 @@ namespace Program
             // handles events on app close
         }
 
-        // corner clipping/custom TItle Bar
+        // corner clipping/custom Title Bar
         private void ClipCorners()
         {
             double CRad = 25;
@@ -139,27 +139,37 @@ namespace Program
             bool sc3 = false;
             bool sc4 = false;
 
+            static void DeleteDownloadFiles()
+            {
+                if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4")))
+                {
+                    File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4"));
+                }
+                if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3")))
+                {
+                    File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3"));
+                }
+            }
+
             // Standard
             if (rgbCombined.IsChecked == true)
-            {   //
-                // FIX process, error exitcode -2, problem with args when starting ffmpeg process : need to fix this
-                //
-
+            {   
+                DeleteDownloadFiles();
 
                 yt.OutputFolder = $@"Dependencies\";
 
-                // -> download using youtubedl : get both video and audio
-                //ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = $@"Dependencies\dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
-                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" }, Output = $@"Dependencies\dvideo.mp4" }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                // FIX : Download method does not format correctly
+                ErrorStateVideo = await yt.RunVideoDownload($@"{GetURL()}", format: "bestvideo", output: Output, progress: DownloadProgress, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\dvideo.mp4" });
+                
                 ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" });
                 // create output file + dfiles, ffmpeg path and args for process
                 string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
-                string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp4");
-                string outFile = Path.Combine(config.DownloadOptionsInfo.Directory, "merged.mp4");
+                string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
+                string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
                 string ffmpegPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe");
                 string ffmpegArgs = $"-i \"{dvideo}\" -i \"{daudio}\" -c:v copy -c:a copy \"{outFile}\"";
+                
                 // -> merge video and audio using ffmpeg : output to directory
-                MessageBox.Show(ffmpegPath);
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
                 {
                     FileName = ffmpegPath,
@@ -170,24 +180,31 @@ namespace Program
                     CreateNoWindow = true
                 };
                 // -> start process and wait for exit : show progress
+
+                int FEC;
+
                 using (Process ffmpegProcess = new Process { StartInfo = FFMpegProcessStartInfo})
                 {
-                    //ffmpegProcess.OutputDataReceived += (sender, e) => ShowFFMpegProgress(e.Data, false);
-                    //ffmpegProcess.ErrorDataReceived += (sender, e) => ShowFFMpegProgress(e.Data, true);
                     ffmpegProcess.Start();
                     ffmpegProcess.BeginOutputReadLine();
                     ffmpegProcess.BeginErrorReadLine();
                     ffmpegProcess.WaitForExit();
-
-                    MessageBox.Show(Convert.ToString(ffmpegProcess.ExitCode));
+                    FEC = ffmpegProcess.ExitCode;
                 }
+
                 // contains old code, if new code cant be implemented, i will be forced to revert to this
                 //ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4);
 
-                    if (ErrorStateVideo.Success && ErrorStateAudio.Success)
+                DeleteDownloadFiles();
+
+                if (ErrorStateVideo.Success && ErrorStateAudio.Success)
+                {
+                    sc1 = true;
+                    if (FEC != 0)
                     {
-                        sc1 = true;
+                        sc1 = false;
                     }
+                }
             }
 
             // Video
