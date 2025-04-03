@@ -1,0 +1,7 @@
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Video Downloader.exe
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Video Downloader.deps.json
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Video Downloader.runtimeconfig.json
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Video Downloader.pdb
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\Newtonsoft.Json.dll
+C:\Projects\C#-Video-downloader\Program\Program\bin\Release\net9.0-windows\publish\YoutubeDLSharp.dll
