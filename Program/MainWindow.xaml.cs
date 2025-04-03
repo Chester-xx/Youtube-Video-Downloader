@@ -79,7 +79,11 @@ namespace Program
             InitializeComponent();
             InitializeApplication();
             this.Loaded += (s, e) => ClipCorners();
-            this.Closing += (s, e) => { SetJSON(config); CheckPref(); };
+            this.Closing += (s, e) => 
+            { 
+                SetJSON(config); 
+                CheckPref(); 
+            };
         }
 
         // BUTTONS & APP LOGIC
@@ -140,6 +144,7 @@ namespace Program
             bool sc3 = false;
             bool sc4 = false;
 
+            // delete any previous download files
             static void DeleteDownloadFiles()
             {
                 if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4")))
@@ -155,12 +160,12 @@ namespace Program
             // Standard
             if (rgbCombined.IsChecked == true)
             {
-                // -> Need to implement a download and output tracker for both ytdlp and ffmpeg
-
+                // delete previous files for cleanup
                 DeleteDownloadFiles();
 
                 yt.OutputFolder = $@"Dependencies\";
 
+                // processtart info for ytdlp.exe
                 ProcessStartInfo ytdlpInfo = new ProcessStartInfo()
                 {
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "yt-dlp.exe"),
@@ -171,8 +176,10 @@ namespace Program
                     CreateNoWindow = true
                 };
 
+                // exit code ytdlp
                 int YEC = await RunProcessAsync(ytdlpInfo);
 
+                // error
                 if (YEC != 0)
                 {
                     MessageBox.Show($"YoutubeDL failed with exit code : {YEC}", "Error");
@@ -180,14 +187,19 @@ namespace Program
                     return;
                 }
 
+                // run audio download
                 ErrorStateAudio = await yt.RunAudioDownload(
                     url: $@"{GetURL()}",
                     progress: DownloadProgress,
                     output: Output,
                     format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3,
-                    overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" }
+                    overrideOptions: new YoutubeDLSharp.Options.OptionSet 
+                    { 
+                        Output = $@"Dependencies\daudio.mp3" 
+                    }
                 );
 
+                // success state check
                 if (!ErrorStateAudio.Success)
                 {
                     sc1 = false;
@@ -199,7 +211,7 @@ namespace Program
                 string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
                 string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
 
-                // -> merge video and audio using ffmpeg : output to directory
+                // processstart info for ffmpeg.exe
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "ffmpeg.exe"),
@@ -210,10 +222,13 @@ namespace Program
                     CreateNoWindow = true
                 };
 
+                // exit code ffmpeg
                 int FEC = await RunProcessAsync(FFMpegProcessStartInfo);
 
+                // remove current temp files
                 DeleteDownloadFiles();
 
+                // success state check
                 if (ErrorStateAudio.Success)
                 {
                     sc1 = true;
@@ -225,11 +240,21 @@ namespace Program
                 }
             }
 
-
             // Video
             else if (rgbVideo.IsChecked == true)
             {
-                ErrorState = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
+                ErrorState = await yt.RunVideoDownload(
+                    url: $@"{GetURL()}", 
+                    overrideOptions: new YoutubeDLSharp.Options.OptionSet 
+                        { 
+                            Format = "bestvideo+bestaudio", 
+                            PostprocessorArgs = new[] { "-an" } 
+                        }, 
+                    recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, 
+                    progress: DownloadProgress, 
+                    output: Output
+                );
+                
                 if (ErrorState.Success)
                 {
                     sc2 = true;
@@ -239,7 +264,13 @@ namespace Program
             // Audio
             else if (rgbAudio.IsChecked == true)
             {
-                ErrorState = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+                ErrorState = await yt.RunAudioDownload(
+                    url: $@"{GetURL()}", 
+                    progress: DownloadProgress, 
+                    output: Output, 
+                    format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3
+                );
+                
                 if (ErrorState.Success)
                 {
                     sc3 = true;
@@ -249,8 +280,25 @@ namespace Program
             // Video + Audio
             else if (rgbVideoAndAudio.IsChecked == true)
             {
-                ErrorStateVideo = await yt.RunVideoDownload(url: $@"{GetURL()}", overrideOptions: new YoutubeDLSharp.Options.OptionSet { Format = "bestvideo+bestaudio", PostprocessorArgs = new[] { "-an" } }, recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, progress: DownloadProgress, output: Output);
-                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3);
+                ErrorStateVideo = await yt.RunVideoDownload(
+                    url: $@"{GetURL()}", 
+                    overrideOptions: new YoutubeDLSharp.Options.OptionSet 
+                        { 
+                            Format = "bestvideo+bestaudio", 
+                            PostprocessorArgs = new[] { "-an" } 
+                        }, 
+                    recodeFormat: YoutubeDLSharp.Options.VideoRecodeFormat.Mp4, 
+                    progress: DownloadProgress, 
+                    output: Output
+                );
+                
+                ErrorStateAudio = await yt.RunAudioDownload(
+                    url: $@"{GetURL()}", 
+                    progress: DownloadProgress, 
+                    output: Output, 
+                    format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3
+                );
+                
                 if (ErrorStateVideo.Success && ErrorStateAudio.Success)
                 {
                     sc4 = true;
@@ -360,6 +408,14 @@ namespace Program
             {
                 lblStatus.Content = "Waiting for link...";
                 imgThumbNail.Source = null;
+
+                lblTitle.Content = string.Empty;
+                lblViewCount.Content = "Views :";
+                lblAuthor.Content = "Author :";
+                lblLikeCount.Content = "Likes :";
+                lblFormat.Content = "Format :";
+                lblURL.Content = "Link :";
+
                 return;
             }
             if (txtURL.Text == "⌘ Paste Link Here")
@@ -496,25 +552,6 @@ namespace Program
             else // when its not empty output speed and ETA
             {
                 lblSpeed.Content = $"{progress.DownloadSpeed}\t{progress.ETA}";
-            }
-        }
-        
-
-        private void ShowFFMpegProgress(string? data, bool isError)
-        {
-            if (data != null)
-            {
-                lblOutput.Dispatcher.Invoke(new Action(() =>
-                {
-                    if (isError)
-                    {
-                        lblOutput.Content = "Error: " + data;
-                    }
-                    else
-                    {
-                        lblOutput.Content = data;
-                    }
-                }));
             }
         }
 

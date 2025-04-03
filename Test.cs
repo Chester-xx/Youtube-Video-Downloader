@@ -91,10 +91,3 @@ if (rgbCombined.IsChecked == true)
         }
     }
 }
-
-//
-//
-//
-//
-// NEW CODE ->
-

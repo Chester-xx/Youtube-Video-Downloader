@@ -1,8 +1,8 @@
 # To Do List
-- Need to implement a download and output tracker for both ytdlp and ffmpeg
-    1. Standard Download
-    2. Create event updaters for both
-    3. Must not freeze the processes of the main program while the command lines run
+1. New Error Message Box
+    - fit the style of main UI
+    - Ensure args are passed to display a small window with error info
+
 
 **NOW**
 - Improve download quality options
@@ -13,3 +13,6 @@
 - user menu panel
 - animate downloads?
 - Language options?
+
+# Completed
+- Dispatch Invoke Tracker that is asynced to track ytdlp and ffmpeg progresses
