@@ -155,35 +155,23 @@ namespace Program
             // Standard
             if (rgbCombined.IsChecked == true)
             {
-
                 // -> Need to implement a download and output tracker for both ytdlp and ffmpeg
 
                 DeleteDownloadFiles();
 
                 yt.OutputFolder = $@"Dependencies\";
 
-                // yt-dlp -f "bestvideo[ext=webm]" --remux-video mp4 -o "video.mp4" "<VIDEO_URL>"
-
                 ProcessStartInfo ytdlpInfo = new ProcessStartInfo()
                 {
                     FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "yt-dlp.exe"),
-                    Arguments = $"-f bestvideo[ext=webm] --remux-video mp4 -o Dependencies\\dvideo.mp4 {GetURL()}",
+                    Arguments = $"-f bestvideo[ext=webm]/bestvideo --remux-video mp4 -o Dependencies\\dvideo.mp4 {GetURL()}",
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
 
-                int YEC;
-
-                using (Process ytdlpProcess = new Process { StartInfo = ytdlpInfo })
-                {
-                    ytdlpProcess.Start();
-                    ytdlpProcess.BeginOutputReadLine();
-                    ytdlpProcess.BeginErrorReadLine();
-                    ytdlpProcess.WaitForExit();
-                    YEC = ytdlpProcess.ExitCode;
-                }
+                int YEC = await RunProcessAsync(ytdlpInfo);
 
                 if (YEC != 0)
                 {
@@ -192,17 +180,24 @@ namespace Program
                     return;
                 }
 
-                ErrorStateAudio = await yt.RunAudioDownload(url: $@"{GetURL()}", progress: DownloadProgress, output: Output, format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3, overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" });
-                // create output file + dfiles, ffmpeg path and args for process
-                string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
-                string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
-                string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
+                ErrorStateAudio = await yt.RunAudioDownload(
+                    url: $@"{GetURL()}",
+                    progress: DownloadProgress,
+                    output: Output,
+                    format: YoutubeDLSharp.Options.AudioConversionFormat.Mp3,
+                    overrideOptions: new YoutubeDLSharp.Options.OptionSet { Output = $@"Dependencies\daudio.mp3" }
+                );
 
                 if (!ErrorStateAudio.Success)
                 {
                     sc1 = false;
                     return;
                 }
+
+                // create output file + dfiles, ffmpeg path and args for process
+                string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
+                string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
+                string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
 
                 // -> merge video and audio using ffmpeg : output to directory
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
@@ -214,18 +209,8 @@ namespace Program
                     UseShellExecute = false,
                     CreateNoWindow = true
                 };
-                // -> start process and wait for exit : show progress
 
-                int FEC;
-
-                using (Process ffmpegProcess = new Process { StartInfo = FFMpegProcessStartInfo })
-                {
-                    ffmpegProcess.Start();
-                    ffmpegProcess.BeginOutputReadLine();
-                    ffmpegProcess.BeginErrorReadLine();
-                    ffmpegProcess.WaitForExit();
-                    FEC = ffmpegProcess.ExitCode;
-                }
+                int FEC = await RunProcessAsync(FFMpegProcessStartInfo);
 
                 DeleteDownloadFiles();
 
@@ -237,13 +222,9 @@ namespace Program
                         MessageBox.Show($"FFMpeg failed with exit code : {FEC}", "Error");
                         sc1 = false;
                     }
-                    if (YEC != 0)
-                    {
-                        MessageBox.Show($"YoutubeDL failed with exit code : {YEC}", "Error");
-                        sc1 = false;
-                    }
                 }
             }
+
 
             // Video
             else if (rgbVideo.IsChecked == true)
@@ -291,6 +272,36 @@ namespace Program
             else
             {
                 lblStatus.Content = "Completed";
+            }
+        }
+
+        private async Task<int> RunProcessAsync(ProcessStartInfo startInfo)
+        {
+            using (Process process = new Process { StartInfo = startInfo })
+            {
+                var tcs = new TaskCompletionSource<int>();
+
+                process.EnableRaisingEvents = true;
+                process.OutputDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Dispatcher.Invoke(() => lblOutput.Content = e.Data);
+                };
+
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                        Dispatcher.Invoke(() => lblOutput.Content = $"Error: {e.Data}");
+                };
+
+
+                process.Exited += (sender, e) => tcs.SetResult(process.ExitCode);
+
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                return await tcs.Task; // Asynchronously wait for process to exit
             }
         }
 
@@ -487,6 +498,7 @@ namespace Program
                 lblSpeed.Content = $"{progress.DownloadSpeed}\t{progress.ETA}";
             }
         }
+        
 
         private void ShowFFMpegProgress(string? data, bool isError)
         {
