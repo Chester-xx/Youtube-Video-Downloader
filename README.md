@@ -1,5 +1,7 @@
 # Youtube Video Downloader - Chester-xx
 
+New Error System will be implemented soon into a new release
+
 ### Download the latest release here : https://github.com/Chester-xx/Youtube-Video-Downloader/releases/download/v1.2.2/Video-Downloader-Setup.exe
 
 ![Screenshot 2025-02-23 185257](https://github.com/user-attachments/assets/24881bdf-fd77-4229-84b1-8fa321b1b3f2)
