@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text.Json;
 
+// DataAccessor class for managing user preferences and application settings
 public class DataAccessor
 {
 

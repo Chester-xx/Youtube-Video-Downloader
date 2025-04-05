@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Projects\\C#-Video-downloader\\Program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\dataaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\dataaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Projects\\C#-Video-downloader\\Program\\TODO.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TODO.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\initwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\initwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\dataaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\dataaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Projects\\C#-Video-downloader\\Program\\TODO.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TODO.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\c#-video-downloader\\program\\program\\initwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\initwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,34 +26,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TODO.md",
+              "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\TODO.md",
+              "RelativeDocumentMoniker": "TODO.md",
+              "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\TODO.md",
+              "RelativeToolTip": "TODO.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-02-22T01:09:28.441Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "InitWindow.xaml.cs",
               "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\InitWindow.xaml.cs",
               "RelativeDocumentMoniker": "Program\\InitWindow.xaml.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\InitWindow.xaml.cs",
               "RelativeToolTip": "Program\\InitWindow.xaml.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAjwGEAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-05T20:13:42.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DataAccessor.cs",
               "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\DataAccessor.cs",
               "RelativeDocumentMoniker": "Program\\DataAccessor.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\DataAccessor.cs",
               "RelativeToolTip": "Program\\DataAccessor.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAgwBoAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAAAEQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-05T20:10:46.817Z",
               "EditorCaption": ""
@@ -66,22 +79,9 @@
               "RelativeDocumentMoniker": "Program\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\MainWindow.xaml.cs",
               "RelativeToolTip": "Program\\MainWindow.xaml.cs",
-              "ViewState": "AgIAABoCAAAAAAAAAAAjwDkCAAB5AAAAAAAAAA==",
+              "ViewState": "AgIAAD0BAAAAAAAAAAAAwIQBAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-28T12:16:21.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TODO.md",
-              "DocumentMoniker": "C:\\Projects\\C#-Video-downloader\\Program\\TODO.md",
-              "RelativeDocumentMoniker": "TODO.md",
-              "ToolTip": "C:\\Projects\\C#-Video-downloader\\Program\\TODO.md",
-              "RelativeToolTip": "TODO.md",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-02-22T01:09:28.441Z",
               "EditorCaption": ""
             }
           ]
