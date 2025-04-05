@@ -90,14 +90,14 @@ namespace Program
 
         private void UpdateDependencyState()
         {
-            MainWindow.CheckPref();
-            MainWindow.Preferences data = MainWindow.GetJSON();
+            DataAccessor.CheckPref();
+            DataAccessor.Preferences data = DataAccessor.GetJSON();
             data.UserInfo.DependencyState = true;
-            MainWindow.SetJSON(data);
-            MainWindow.config.UserInfo.DependencyState = true;
+            DataAccessor.SetJSON(data);
+            DataAccessor.config.UserInfo.DependencyState = true;
         }
 
-        private void Grid_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {

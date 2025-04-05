@@ -16,3 +16,5 @@
 
 # Completed
 - Dispatch Invoke Tracker that is asynced to track ytdlp and ffmpeg progresses
+- Fixed cancel of dir set so that it displays the original directory selected
+- Code CleanUp

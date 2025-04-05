@@ -7,64 +7,13 @@ using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using YoutubeDLSharp;
 using YoutubeDLSharp.Metadata;
-using System.Text.Json;
-using YoutubeDLSharp.Options;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace Program
 {
     public partial class MainWindow : Window
     {
-        //config structure
-        public class Preferences
-        {
-            public required ProgramInfo ProgramInfo { get; set; }
-            public required User UserInfo { get; set; }
-            public required DownloadOptions DownloadOptionsInfo { get; set; }
-        }
-        public class ProgramInfo
-        {
-            public required Version AppVersion { get; set; }
-            public required string Website { get; set; }
-            public required string Developer { get; set; }
-            public required string Language { get; set; }
-        }
-        public class User
-        {
-            public required string Directory { get; set; }
-            public required bool DependencyState { get; set; }
-        }
-        public class DownloadOptions
-        {
-            public required string Directory { get; set; }
-            public required string AudioQuality { get; set; }
-            public required string VideoQuality { get; set; }
-
-        }
-
-        // Config
-        public static Preferences config = new()
-        {
-            ProgramInfo = new ProgramInfo
-            {
-                AppVersion = new Version(1, 2, 2, 0),
-                Website = "http://github.com/Chester-xx/Youtube-Video-Downloader",
-                Developer = "Chester-xx",
-                Language = "en-US"
-            },
-            UserInfo = new User
-            {
-                Directory = string.Empty,
-                DependencyState = true
-            },
-            DownloadOptionsInfo = new DownloadOptions
-            {
-                Directory = string.Empty,
-                AudioQuality = string.Empty,
-                VideoQuality = string.Empty
-            }
-        };
+        
 
         // Globals
         private bool Init = false;
@@ -81,8 +30,8 @@ namespace Program
             this.Loaded += (s, e) => ClipCorners();
             this.Closing += (s, e) => 
             { 
-                SetJSON(config); 
-                CheckPref(); 
+                DataAccessor.SetJSON(DataAccessor.config); 
+                DataAccessor.CheckPref(); 
             };
         }
 
@@ -116,7 +65,7 @@ namespace Program
                 return;
             }
             // Did the user select a directory?
-            if (String.IsNullOrEmpty(config.UserInfo.Directory) || String.IsNullOrWhiteSpace(config.UserInfo.Directory))
+            if (String.IsNullOrEmpty(DataAccessor.config.UserInfo.Directory) || String.IsNullOrWhiteSpace(DataAccessor.config.UserInfo.Directory))
             {
                 MessageBox.Show("Please select a folder for your download.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -127,7 +76,7 @@ namespace Program
             {
                 YoutubeDLPath = @"Dependencies\yt-dlp.exe",
                 FFmpegPath = @"Dependencies\ffmpeg.exe",
-                OutputFolder = $@"{config.DownloadOptionsInfo.Directory}"
+                OutputFolder = $@"{DataAccessor.config.DownloadOptionsInfo.Directory}"
             };
 
             lblStatus.Content = "Downloading...";
@@ -209,7 +158,7 @@ namespace Program
                 // create output file + dfiles, ffmpeg path and args for process
                 string dvideo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "dvideo.mp4");
                 string daudio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dependencies", "daudio.mp3");
-                string outFile = config.UserInfo.Directory + "\\" + "output.mp4";
+                string outFile = DataAccessor.config.UserInfo.Directory + "\\" + "output.mp4";
 
                 // processstart info for ffmpeg.exe
                 ProcessStartInfo FFMpegProcessStartInfo = new ProcessStartInfo
@@ -349,7 +298,7 @@ namespace Program
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
 
-                return await tcs.Task; // Asynchronously wait for process to exit
+                return await tcs.Task;
             }
         }
 
@@ -392,7 +341,7 @@ namespace Program
         // Quit app logic
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            SetJSON(config);
+            DataAccessor.SetJSON(DataAccessor.config);
             Application.Current.Shutdown(0);
         }
 
@@ -532,11 +481,6 @@ namespace Program
             return str;
         }
 
-        private void ShowYTDLProgress(double data)
-        {
-            lblOutput.Content = data.ToString();
-        }
-
         // Updates download progress of videos
         private void ShowProgress(DownloadProgress progress)
         {
@@ -576,20 +520,28 @@ namespace Program
             // if no folder selected
             if (check == false)
             {
-                lblDirectory.Content = "Download Destination : None";
-                return;
+                if (!string.IsNullOrEmpty(DataAccessor.config.UserInfo.Directory))
+                {
+                    lblDirectory.Content = DataAccessor.config.UserInfo.Directory;
+                    return;
+                }
+                else
+                {
+                    lblDirectory.Content = "Download Destination : None";
+                    return;
+                }
             }
 
-            config.UserInfo.Directory = dialog.FolderName;
-            lblDirectory.Content = config.UserInfo.Directory;
-            SetJSON(config);
+            DataAccessor.config.UserInfo.Directory = dialog.FolderName;
+            lblDirectory.Content = DataAccessor.config.UserInfo.Directory;
+            DataAccessor.SetJSON(DataAccessor.config);
         }
 
         // ON APP LOAD
         private void InitializeApplication()
         {
-            CheckPref();
-            config = GetJSON();
+            DataAccessor.CheckPref();
+            DataAccessor.config = DataAccessor.GetJSON();
 
             //check if dependency executables exist or directory itself
             if ((Directory.Exists(@"Dependencies") is bool dir && !dir) || !File.Exists(@"Dependencies\ffmpeg.exe") || !File.Exists(@"Dependencies\yt-dlp.exe"))
@@ -598,11 +550,11 @@ namespace Program
                 {
                     Directory.CreateDirectory(@"Dependencies");
                 }
-                config.UserInfo.DependencyState = false;
+                DataAccessor.config.UserInfo.DependencyState = false;
             }
 
             // if dependencies are not installed : install
-            if (!config.UserInfo.DependencyState)
+            if (!DataAccessor.config.UserInfo.DependencyState)
             {
                 // window prompt
                 InitWindow initWindow = new InitWindow();
@@ -615,35 +567,9 @@ namespace Program
             }
 
             // if directory from json file empty
-            if (!string.IsNullOrEmpty(config.UserInfo.Directory) || !string.IsNullOrWhiteSpace(config.UserInfo.Directory))
+            if (!string.IsNullOrEmpty(DataAccessor.config.UserInfo.Directory) || !string.IsNullOrWhiteSpace(DataAccessor.config.UserInfo.Directory))
             {
-                lblDirectory.Content = config.UserInfo.Directory;
-            }
-        }
-
-        // returns a static accessible Preference class of stored file, which is basically just the contents of the preferences.json file
-        public static Preferences GetJSON()
-        {
-            Preferences? data = JsonSerializer.Deserialize<Preferences>(File.ReadAllText(@"UserPreferences\preferences.json"));
-            if (data == null)
-            {
-                return config;
-            }
-            return data;
-        }
-
-        public static void SetJSON(Preferences data)
-        {
-            File.WriteAllText(@"UserPreferences\preferences.json", JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true }));
-        }
-
-        public static void CheckPref()
-        {
-            // ensure directories and files exist before accessing them
-            if (!Directory.Exists(@"UserPreferences") || !File.Exists(@"UserPreferences\preferences.json"))
-            {
-                Directory.CreateDirectory(@"UserPreferences");
-                SetJSON(config);
+                lblDirectory.Content = DataAccessor.config.UserInfo.Directory;
             }
         }
     }
