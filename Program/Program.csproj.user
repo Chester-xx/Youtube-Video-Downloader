@@ -9,6 +9,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Error.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="InitWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

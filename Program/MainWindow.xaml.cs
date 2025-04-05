@@ -27,6 +27,7 @@ namespace Program
         {
             InitializeComponent();
             InitializeApplication();
+
             this.Loaded += (s, e) => ClipCorners();
             this.Closing += (s, e) => 
             { 
@@ -61,13 +62,13 @@ namespace Program
             // Did the user enter a URL?
             if (GetURL() is bool noURL && noURL)
             {
-                MessageBox.Show("Please enter a valid URL.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Error.Display("Error", "Please enter a valid URL.");
                 return;
             }
             // Did the user select a directory?
             if (String.IsNullOrEmpty(DataAccessor.config.UserInfo.Directory) || String.IsNullOrWhiteSpace(DataAccessor.config.UserInfo.Directory))
             {
-                MessageBox.Show("Please select a folder for your download.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Error.Display("Error", "Please select a folder to store your download.");
                 return;
             }
 
@@ -131,7 +132,7 @@ namespace Program
                 // error
                 if (YEC != 0)
                 {
-                    MessageBox.Show($"YoutubeDL failed with exit code : {YEC}", "Error");
+                    Error.Display("Error", $"FFMpeg failed with exit code : {YEC}");
                     sc1 = false;
                     return;
                 }
@@ -183,7 +184,7 @@ namespace Program
                     sc1 = true;
                     if (FEC != 0)
                     {
-                        MessageBox.Show($"FFMpeg failed with exit code : {FEC}", "Error");
+                        Error.Display("Error", $"FFMpeg failed with exit code : {FEC}");
                         sc1 = false;
                     }
                 }
@@ -257,7 +258,7 @@ namespace Program
             // No method selected for download
             else
             {
-                MessageBox.Show("Please select a download method.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Error.Display("Error", "Please select a download method.");
                 return;
             }
 

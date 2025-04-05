@@ -50,3 +50,5 @@ C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\refint\
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Video Downloader.pdb
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program.genruntimeconfig.cache
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\ref\Video Downloader.dll
+C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Error.g.cs
+C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Error.baml
