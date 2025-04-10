@@ -97,11 +97,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
+      "projectUniqueName": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
       "projectName": "Video Downloader",
-      "projectPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
+      "projectPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
       "packagesPath": "C:\\Users\\max12\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\obj\\",
+      "outputPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

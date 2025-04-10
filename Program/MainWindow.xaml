@@ -84,6 +84,13 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
+
+                <Button x:Name="btnProfile" DockPanel.Dock="Right" Width="45" Height="32" BorderBrush="{x:Null}" ClickMode="Release" Click="BtnProfile" Background="#FF191919">
+                    <Image x:Name="imgProfile" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        
+                    </Image>
+                </Button>
+
                 <Grid x:Name="grdTitleBar" Width="346">
                     <Image Margin="19,6,307,6" Source="/icon.jpg"/>
                     <Label x:Name="lblTitleBar" Content="Video Downloader" Margin="44,0,0,0" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>

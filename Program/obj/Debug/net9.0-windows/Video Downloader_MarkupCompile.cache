@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\
 Program
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP
-C:\Projects\C#-Video-downloader\Program\Program\App.xaml
-3-2132548213
+C:\Projects\Youtube-Video-Downloader\Program\App.xaml
+4458562350
 1-1606303973
-7-1183255548
+8-341410826
 2021895867758
-Error.xaml;InitWindow.xaml;MainWindow.xaml;
+Error.xaml;InitWindow.xaml;MainWindow.xaml;Profile.xaml;
 
 False
 

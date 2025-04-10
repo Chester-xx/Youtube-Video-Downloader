@@ -52,3 +52,35 @@ C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Program
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\ref\Video Downloader.dll
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Error.g.cs
 C:\Projects\C#-Video-downloader\Program\Program\obj\Debug\net9.0-windows\Error.baml
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Video Downloader.exe
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Video Downloader.deps.json
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Video Downloader.runtimeconfig.json
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Video Downloader.dll
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Video Downloader.pdb
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+C:\Projects\Youtube-Video-Downloader\Program\bin\Debug\net9.0-windows\YoutubeDLSharp.dll
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.csproj.AssemblyReference.cache
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Error.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\InitWindow.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\MainWindow.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\App.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader_Content.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader_MarkupCompile.cache
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader_MarkupCompile.lref
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Error.baml
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\InitWindow.baml
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\MainWindow.baml
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader.g.resources
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.AssemblyInfoInputs.cache
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.AssemblyInfo.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.csproj.CoreCompileInputs.cache
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.sourcelink.json
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.csproj.Up2Date
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader.dll
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\refint\Video Downloader.dll
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Video Downloader.pdb
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Program.genruntimeconfig.cache
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\ref\Video Downloader.dll
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Profile.g.cs
+C:\Projects\Youtube-Video-Downloader\Program\obj\Debug\net9.0-windows\Profile.baml

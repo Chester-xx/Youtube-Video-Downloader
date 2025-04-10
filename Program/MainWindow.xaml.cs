@@ -340,6 +340,12 @@ namespace Program
         }
 
         // Quit app logic
+
+        private void BtnProfile(object sender, RoutedEventArgs e)
+        {
+            Profile.Display();
+        }
+
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             DataAccessor.SetJSON(DataAccessor.config);
