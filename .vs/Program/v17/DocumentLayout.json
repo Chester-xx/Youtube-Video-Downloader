@@ -1,24 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Projects\\Youtube-Video-Downloader\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\youtube-video-downloader\\program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\youtube-video-downloader\\program\\profile.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\profile.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\youtube-video-downloader\\program\\profile.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\profile.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|c:\\projects\\youtube-video-downloader\\program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{81AD4069-45F9-43B4-8FBE-EA033511663C}|Program\\Program.csproj|solutionrelative:program\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Projects\\C#-Video-downloader\\Program\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -26,63 +9,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Projects\\Youtube-Video-Downloader\\Program\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "Program\\MainWindow.xaml",
-              "ToolTip": "C:\\Projects\\Youtube-Video-Downloader\\Program\\MainWindow.xaml",
-              "RelativeToolTip": "Program\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-04-10T07:51:34.558Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Projects\\Youtube-Video-Downloader\\Program\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Program\\MainWindow.xaml.cs",
-              "ToolTip": "C:\\Projects\\Youtube-Video-Downloader\\Program\\MainWindow.xaml.cs",
-              "RelativeToolTip": "Program\\MainWindow.xaml.cs",
-              "ViewState": "AgIAADsBAAAAAAAAAAD4v1IBAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-07T10:11:40.729Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Profile.xaml.cs",
-              "DocumentMoniker": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Profile.xaml.cs",
-              "RelativeDocumentMoniker": "Program\\Profile.xaml.cs",
-              "ToolTip": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Profile.xaml.cs",
-              "RelativeToolTip": "Program\\Profile.xaml.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAwCMAAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-10T08:02:42.731Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Profile.xaml",
-              "DocumentMoniker": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Profile.xaml",
-              "RelativeDocumentMoniker": "Program\\Profile.xaml",
-              "ToolTip": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Profile.xaml",
-              "RelativeToolTip": "Program\\Profile.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-04-10T08:02:31.813Z",
-              "EditorCaption": ""
             }
           ]
         }

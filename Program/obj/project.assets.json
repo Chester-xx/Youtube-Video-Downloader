@@ -15,7 +15,7 @@
           }
         }
       },
-      "YoutubeDLSharp/1.1.1": {
+      "YoutubeDLSharp/1.1.2": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
@@ -64,10 +64,10 @@
         "packageIcon.png"
       ]
     },
-    "YoutubeDLSharp/1.1.1": {
-      "sha512": "C379jxThHf0DtOccJao1g8wd+4OeSaAT7gHArY65wFNuId+yQ+krT/iB9cjGfPoYJHxGwpxvLIvGh5as2+pnqA==",
+    "YoutubeDLSharp/1.1.2": {
+      "sha512": "PYcZLUqayicAHsi9k0Uprkd0I54hCTZ41pbwslT4QE7CwlceXv+gZr5nMKsifPOeYXwzgOvf1YmQF4W4uklzeA==",
       "type": "package",
-      "path": "youtubedlsharp/1.1.1",
+      "path": "youtubedlsharp/1.1.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -80,14 +80,14 @@
         "lib/net8.0/YoutubeDLSharp.xml",
         "lib/netstandard2.0/YoutubeDLSharp.dll",
         "lib/netstandard2.0/YoutubeDLSharp.xml",
-        "youtubedlsharp.1.1.1.nupkg.sha512",
+        "youtubedlsharp.1.1.2.nupkg.sha512",
         "youtubedlsharp.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
-      "YoutubeDLSharp >= 1.1.1"
+      "YoutubeDLSharp >= 1.1.2"
     ]
   },
   "packageFolders": {
@@ -97,11 +97,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
+      "projectUniqueName": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
       "projectName": "Video Downloader",
-      "projectPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
+      "projectPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
       "packagesPath": "C:\\Users\\max12\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\obj\\",
+      "outputPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -142,7 +142,7 @@
         "dependencies": {
           "YoutubeDLSharp": {
             "target": "Package",
-            "version": "[1.1.1, )"
+            "version": "[1.1.2, )"
           }
         },
         "imports": [

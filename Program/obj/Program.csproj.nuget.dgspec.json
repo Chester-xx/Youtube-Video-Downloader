@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj": {}
+    "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj": {
+    "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
+        "projectUniqueName": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
         "projectName": "Video Downloader",
-        "projectPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\Program.csproj",
+        "projectPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\Program.csproj",
         "packagesPath": "C:\\Users\\max12\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\Youtube-Video-Downloader\\Program\\obj\\",
+        "outputPath": "C:\\Projects\\C#-Video-downloader\\Program\\Program\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -52,7 +52,7 @@
           "dependencies": {
             "YoutubeDLSharp": {
               "target": "Package",
-              "version": "[1.1.1, )"
+              "version": "[1.1.2, )"
             }
           },
           "imports": [

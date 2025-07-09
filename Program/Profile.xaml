@@ -22,7 +22,6 @@
                             <Setter Property="Background" Value="#FF191919"/>
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
-
                             <Style.Triggers>
                                 <!-- Hover -->
                                 <Trigger Property="IsMouseOver" Value="True">
@@ -32,16 +31,10 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0">
-                                <ContentPresenter 
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center"
-                                    Margin="0, -7.5, 0.7, 0"
-                                    TextElement.FontSize="30"
-                                    TextElement.FontWeight="Thin"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, -7.5, 0.7, 0" TextElement.FontSize="30" TextElement.FontWeight="Thin" Foreground="{TemplateBinding Foreground}"/>
                             </Border>
                         </ControlTemplate>
                     </Button.Template>
